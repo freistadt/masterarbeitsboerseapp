@@ -3,7 +3,9 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  //When dpelyoed change this to the real URL and work in the eviroment.prod.ts
+  apiStandartUrl: 'http://localhost:8080'
 };
 
 /*
