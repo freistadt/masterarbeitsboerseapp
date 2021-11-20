@@ -11,7 +11,9 @@
       </li>
     </ul>
     <form class="form-inline my-2 my-lg-0">
-      <input type="search"
+<!--      #key --> Assigns a local reference name-->
+<!--      ngModelChange &ndash;&gt; whenever something is updated in the field-->
+      <input type="search" (ngModelChange) = "searchPaper(key.value)" #key="ngModel" ngModel
                    name="key" id="searchName" class="form-control mr-sm-2" placeholder="Search papers..." required>
     </form>
   </div>

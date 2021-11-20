@@ -43,6 +43,28 @@ export class AppComponent implements  OnInit{
     )
   }
 
+  public searchPaper(key: string): void{
+    //container to store all Matches
+    const findings: Paper [] = [];
+
+    //loop over all papers an check if. -1 no match found in the indexOf function.
+    for (const paper_i of this.papers) {
+      if (paper_i.title.toLocaleLowerCase().indexOf(key.toLocaleLowerCase()) !== -1
+        || paper_i.contact_person.toLocaleLowerCase().indexOf(key.toLocaleLowerCase()) !== -1
+        || paper_i.description.toLocaleLowerCase().indexOf(key.toLocaleLowerCase()) !== -1
+      )  {
+        findings.push(paper_i);
+      }
+    }
+  //only show the results
+    this.papers = findings;
+
+    //case nothing was found or the field is empty --> reset to show all Papers
+    if (findings.length === 0 || !key) {
+      this.getPapers();
+    }
+  }
+
   // Handling the different Modals. Argument Paper so you can have Modals and functions (add or delte or edit for the specifix paper
   //mode gets passed to the function know which one to open
   public onOpenModal(paper: Paper, mode: string): void {
