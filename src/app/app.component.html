@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<!--<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <a class="navbar-brand" style="color:white;">Masterarbeitsbörse</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -6,20 +6,56 @@
   <div class="collapse navbar-collapse" id="navbarColor02">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-<!--        call the function to open a Modal (app-componnent.ts)-->
+&lt;!&ndash;        call the function to open a Modal (app-componnent.ts)&ndash;&gt;
         <a class="nav-link" (click)="onOpenModalNoInput('add')"> Neue Arbeit hinzufügen <span class="sr-only">(current)</span></a>
       </li>
     </ul>
     <form class="form-inline my-2 my-lg-0">
-<!--      #key --> Assigns a local reference name-->
-<!--      ngModelChange &ndash;&gt; whenever something is updated in the field-->
+&lt;!&ndash;      #key &ndash;&gt; Assigns a local reference name&ndash;&gt;
+&lt;!&ndash;      ngModelChange &ndash;&gt; whenever something is updated in the field&ndash;&gt;
       <input type="search" (ngModelChange) = "searchPaper(key.value)" #key="ngModel" ngModel
                    name="key" id="searchName" class="form-control mr-sm-2" placeholder="Search papers..." required>
     </form>
   </div>
 </nav>
 
+-->
+<nav class="navbar navbar-dark bg-primary">
+  <div class="container">
+    <a class="navbar-brand">
+      {{'Sitetitle' | translate }}
+    </a>
+    <span class="form-inline">
+      <select class="form-control" #selectedLang (change)="switchLang(selectedLang.value)">
+        <option *ngFor="let language of translate.getLangs()" [value]="language"
+                [selected]="language === translate.currentLang">
+          {{ language }}
+        </option>
+      </select>
+    </span>
+  </div>
+</nav>
 
+<div class="container">
+  <form>
+    <div class="form-group">
+      <label>{{'Name' | translate}}</label>
+      <input type="text" class="form-control">
+      <small class="text-danger">{{'NameError' | translate}}</small>
+    </div>
+
+    <div class="form-group">
+      <label>{{'Email' | translate}}</label>
+      <input type="email" class="form-control">
+    </div>
+
+
+    <button type="submit" class="btn btn-block btn-danger">{{'Submit' | translate}}</button>
+  </form>
+</div>
+
+<!--
+<p i18n="Test Description | Test Title for the Test Construction@@Testparagraph"> TEST TRANSLATE</p>
 
 <div class="container mt-5 mb-3" id="mainContainer">
   <div class="row">
@@ -27,7 +63,7 @@
       <div class="card p-3 mb-2">
         <div class="d-flex justify-content-between">
           <div class="d-flex flex-row align-items-center">
-            <!--icon dokumentation: https://www.w3schools.com/css/css_icons.asp-->
+            &lt;!&ndash;icon dokumentation: https://www.w3schools.com/css/css_icons.asp&ndash;&gt;
             <div class="icon"> <i class="glyphicon glyphicon-envelope"></i> </div>
             <div class="ms-2 c-details">
               <h6 class="mb-0">{{paper?.id}}</h6> <span>{{paper?.contact_person}}</span>
@@ -48,7 +84,7 @@
 </div>
 
 
-<!-- Add Paper Modal -->
+&lt;!&ndash; Add Paper Modal &ndash;&gt;
 <div class="modal" id="addPaperModal" tabindex="-1" role="dialog" aria-labelledby="addPaperModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -59,11 +95,11 @@
         </button>
       </div>
       <div class="modal-body">
-        <!--Form is a JSON File -->
+        &lt;!&ndash;Form is a JSON File &ndash;&gt;
         <form #addForm="ngForm" (ngSubmit)="onNewPaper(addForm)">
           <div class="form-group">
             <label for="title">title</label>
-<!--            ngModul for the name is needed that the ts File Functions can access the value-->
+&lt;!&ndash;            ngModul for the name is needed that the ts File Functions can access the value&ndash;&gt;
             <input type="text" ngModel name="title" class="form-control" id="title" placeholder="Title" required>
           </div>
           <div class="form-group">
@@ -76,7 +112,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" id="close-add-paper-form" class="btn btn-secondary" data-dismiss="modal">Close</button>
-<!--            This means a invalid form cant be submitet because the button is diabled-->
+&lt;!&ndash;            This means a invalid form cant be submitet because the button is diabled&ndash;&gt;
             <button [disabled]="addForm.invalid" type="submit" class="btn btn-primary" >Save changes</button>
           </div>
         </form>
@@ -86,7 +122,7 @@
 </div>
 
 
-<!-- Modal to edit/configure an Paper -->
+&lt;!&ndash; Modal to edit/configure an Paper &ndash;&gt;
 <div class="modal" id="updatePaperModal" tabindex="-1" aria-labelledby="updatePaperModal" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -102,8 +138,8 @@
             <label for="title">Title</label>
             <input type="text" ngModel="{{curPaper?.title}}" name="title" class="form-control" id="titleEdit" aria-describedby="emailHelp" placeholder="Title">
           </div>
-<!--          hidden because id should not be updatet but id is needed for Hibernate to not create anew Paper-->
-          <!-- tODO add PaperCode if neccessary-->
+&lt;!&ndash;          hidden because id should not be updatet but id is needed for Hibernate to not create anew Paper&ndash;&gt;
+          &lt;!&ndash; tODO add PaperCode if neccessary&ndash;&gt;
           <input type="hidden" ngModel="{{curPaper?.id}}" name="id" class="form-control" id="id" placeholder="ID">
           <div class="form-group">
             <label for="Description">Description</label>
@@ -125,7 +161,7 @@
 
 
 
-<!-- Modal to delete a Paper -->
+&lt;!&ndash; Modal to delete a Paper &ndash;&gt;
 <div class="modal" id="deletePaperModal" tabindex="-1" aria-labelledby="deletePaperModal" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -143,4 +179,4 @@
       </div>
     </div>
   </div>
-</div>
+</div>-->

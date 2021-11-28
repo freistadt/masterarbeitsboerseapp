@@ -3,8 +3,8 @@ import {HttpClient, HttpErrorResponse, HttpRequest} from "@angular/common/http";
 import {PaperService} from "./paper.service";
 import {Paper} from "./paper";
 import {NgForm} from "@angular/forms";
+import { TranslateService } from '@ngx-translate/core';
 
-//pushTest
 
 @Component({
   selector: 'app-root',
@@ -22,7 +22,12 @@ export class AppComponent implements  OnInit{
   public delPaper: Paper;
 
   //injecting the PaperService
-  constructor(private paperService: PaperService) {}
+  constructor(private paperService: PaperService, public translate: TranslateService) {
+    translate.addLangs(['en', 'nl']);
+    translate.setDefaultLang('en');
+  }
+
+  lang: string
 
   //override the given Constructor
   ngOnInit() {
@@ -154,6 +159,12 @@ export class AppComponent implements  OnInit{
         alert(error.message);
       }
     );
+  }
+
+
+  switchLang(lang: string) {
+    console.log(lang);
+    this.translate.use(lang);
   }
 
 }

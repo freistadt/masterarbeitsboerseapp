@@ -6,4 +6,7 @@ export interface  Paper {
   paperCode: string;
   contact_person: string;
   imageUrl: string;
+
+  //test for internalizer
+  production: boolean;
 }
