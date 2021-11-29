@@ -1,30 +1,23 @@
-<!--<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <a class="navbar-brand" style="color:white;">Masterarbeitsbörse</a>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" style="color:white;">{{'Title' | translate }}</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarColor02">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-&lt;!&ndash;        call the function to open a Modal (app-componnent.ts)&ndash;&gt;
-        <a class="nav-link" (click)="onOpenModalNoInput('add')"> Neue Arbeit hinzufügen <span class="sr-only">(current)</span></a>
+<!--&lt;!&ndash;        call the function to open a Modal (app-componnent.ts)&ndash;&gt;-->
+        <a class="nav-link" (click)="onOpenModalNoInput('add')">{{'AddPaper' | translate }}  <span class="sr-only">(current)</span></a>
       </li>
     </ul>
     <form class="form-inline my-2 my-lg-0">
-&lt;!&ndash;      #key &ndash;&gt; Assigns a local reference name&ndash;&gt;
-&lt;!&ndash;      ngModelChange &ndash;&gt; whenever something is updated in the field&ndash;&gt;
+<!--&lt;!&ndash;      #key &ndash;&gt; Assigns a local reference name&ndash;&gt;-->
+<!--&lt;!&ndash;      ngModelChange &ndash;&gt; whenever something is updated in the field&ndash;&gt;-->
       <input type="search" (ngModelChange) = "searchPaper(key.value)" #key="ngModel" ngModel
-                   name="key" id="searchName" class="form-control mr-sm-2" placeholder="Search papers..." required>
+                   name="key" id="searchName" class="form-control mr-sm-2" placeholder="{{'SearchPlaceholder' | translate }}" required>
     </form>
   </div>
-</nav>
-
--->
-<nav class="navbar navbar-dark bg-primary">
   <div class="container">
-    <a class="navbar-brand">
-      {{'Sitetitle' | translate }}
-    </a>
     <span class="form-inline">
       <select class="form-control" #selectedLang (change)="switchLang(selectedLang.value)">
         <option *ngFor="let language of translate.getLangs()" [value]="language"
@@ -36,26 +29,7 @@
   </div>
 </nav>
 
-<div class="container">
-  <form>
-    <div class="form-group">
-      <label>{{'Name' | translate}}</label>
-      <input type="text" class="form-control">
-      <small class="text-danger">{{'NameError' | translate}}</small>
-    </div>
-
-    <div class="form-group">
-      <label>{{'Email' | translate}}</label>
-      <input type="email" class="form-control">
-    </div>
-
-
-    <button type="submit" class="btn btn-block btn-danger">{{'Submit' | translate}}</button>
-  </form>
-</div>
-
-<!--
-<p i18n="Test Description | Test Title for the Test Construction@@Testparagraph"> TEST TRANSLATE</p>
+<!--<p i18n="Test Description | Test Title for the Test Construction@@Testparagraph"> TEST TRANSLATE</p>-->
 
 <div class="container mt-5 mb-3" id="mainContainer">
   <div class="row">
@@ -63,7 +37,7 @@
       <div class="card p-3 mb-2">
         <div class="d-flex justify-content-between">
           <div class="d-flex flex-row align-items-center">
-            &lt;!&ndash;icon dokumentation: https://www.w3schools.com/css/css_icons.asp&ndash;&gt;
+<!--            &lt;!&ndash;icon dokumentation: https://www.w3schools.com/css/css_icons.asp&ndash;&gt;-->
             <div class="icon"> <i class="glyphicon glyphicon-envelope"></i> </div>
             <div class="ms-2 c-details">
               <h6 class="mb-0">{{paper?.id}}</h6> <span>{{paper?.contact_person}}</span>
@@ -73,6 +47,12 @@
         </div>
         <div class="mt-5">
           <h3 class="heading">{{paper?.title}}</h3>
+        </div>
+        <div class="mt-5">
+          <h5 class="heading">Institute: {{paper?.institute}}</h5>
+        </div>
+        <div class="mt-5">
+          <h5 class="heading">Division: {{paper?.division}}</h5>
         </div>
         <div class="float-right btn-group btn-group-sm">
           <a (click)="onOpenModal(paper, 'update')" class="btn btn-primary tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-pencil"></i> </a>
@@ -84,36 +64,44 @@
 </div>
 
 
-&lt;!&ndash; Add Paper Modal &ndash;&gt;
+<!--Add Paper Modal -->
 <div class="modal" id="addPaperModal" tabindex="-1" role="dialog" aria-labelledby="addPaperModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="addPaperModalLabel">Paper</h5>
+        <h5 class="modal-title" id="addPaperModalLabel">{{'AddTitle' | translate }}</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        &lt;!&ndash;Form is a JSON File &ndash;&gt;
+<!--        &lt;!&ndash;Form is a JSON File &ndash;&gt;-->
         <form #addForm="ngForm" (ngSubmit)="onNewPaper(addForm)">
           <div class="form-group">
-            <label for="title">title</label>
-&lt;!&ndash;            ngModul for the name is needed that the ts File Functions can access the value&ndash;&gt;
+            <label for="title">{{'PaperTitle' | translate }}</label>
+<!--&lt;!&ndash;            ngModul for the name is needed that the ts File Functions can access the value&ndash;&gt;-->
             <input type="text" ngModel name="title" class="form-control" id="title" placeholder="Title" required>
           </div>
           <div class="form-group">
-            <label for="description">description</label>
+            <label for="description">{{'PaperDescription' | translate }}</label>
             <input type="text" ngModel name="description" class="form-control" id="description" placeholder="Description" required>
           </div>
           <div class="form-group">
-            <label for="contact_person">contact_person</label>
+            <label for="contact_person">{{'ContactPerson' | translate }}</label>
             <input type="text" ngModel name="contact_person" class="form-control" id="contact_person" placeholder="Contact Person" required>
+          </div>
+          <div class="form-group">
+            <label for="division">{{'Division' | translate }}</label>
+            <input type="text" ngModel name="division" class="form-control" id="division" placeholder="Division" required>
+          </div>
+          <div class="form-group">
+            <label for="institute">{{'Institute' | translate }}</label>
+            <input type="text" ngModel name="institute" class="form-control" id="institute" placeholder="Division" required>
           </div>
           <div class="modal-footer">
             <button type="button" id="close-add-paper-form" class="btn btn-secondary" data-dismiss="modal">Close</button>
-&lt;!&ndash;            This means a invalid form cant be submitet because the button is diabled&ndash;&gt;
-            <button [disabled]="addForm.invalid" type="submit" class="btn btn-primary" >Save changes</button>
+<!--&lt;!&ndash;            This means a invalid form cant be submitted because the button is diabled&ndash;&gt;-->
+            <button [disabled]="addForm.invalid" type="submit" class="btn btn-primary">{{'Save' | translate }}</button>
           </div>
         </form>
       </div>
@@ -122,12 +110,12 @@
 </div>
 
 
-&lt;!&ndash; Modal to edit/configure an Paper &ndash;&gt;
+<!--&lt;!&ndash; Modal to edit/configure an Paper &ndash;&gt;-->
 <div class="modal" id="updatePaperModal" tabindex="-1" aria-labelledby="updatePaperModal" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="updatePaperModalLabel">Ändere Daten {{curPaper?.title}}</h5>
+        <h5 class="modal-title" id="updatePaperModalLabel">{{'ChangeDate' | translate }} {{curPaper?.title}}</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -135,23 +123,31 @@
       <div class="modal-body">
         <form #editForm="ngForm">
           <div class="form-group">
-            <label for="title">Title</label>
+            <label for="title">{{'PaperTitle' | translate }}</label>
             <input type="text" ngModel="{{curPaper?.title}}" name="title" class="form-control" id="titleEdit" aria-describedby="emailHelp" placeholder="Title">
           </div>
-&lt;!&ndash;          hidden because id should not be updatet but id is needed for Hibernate to not create anew Paper&ndash;&gt;
-          &lt;!&ndash; tODO add PaperCode if neccessary&ndash;&gt;
+<!--&lt;!&ndash;          hidden because id should not be updatet but id is needed for Hibernate to not create anew Paper&ndash;&gt;-->
+<!--          &lt;!&ndash; tODO add PaperCode if neccessary&ndash;&gt;-->
           <input type="hidden" ngModel="{{curPaper?.id}}" name="id" class="form-control" id="id" placeholder="ID">
           <div class="form-group">
-            <label for="Description">Description</label>
+            <label for="Description">{{'PaperDescription' | translate }}</label>
             <input type="text" ngModel="{{curPaper?.description}}" name="description" class="form-control" id="descriptionEdited" placeholder="Description">
           </div>
           <div class="form-group">
-            <label for="contact_person">Contact_person</label>
+            <label for="contact_person">{{'ContactPerson' | translate }}</label>
             <input type="text" ngModel="{{curPaper?.contact_person}}" name="contact_person" class="form-control" id="contact_personEdited" placeholder="Contact Person">
+          </div>
+          <div class="form-group">
+            <label for="division">{{'Division' | translate }}</label>
+            <input type="text" ngModel name="division" class="form-control" id="divisionEdited" placeholder="Division" required>
+          </div>
+          <div class="form-group">
+            <label for="institute">{{'Institute' | translate }}</label>
+            <input type="text" ngModel name="institute" class="form-control" id="instituteEdited" placeholder="Division" required>
           </div>
           <div class="modal-footer">
             <button type="button" id="" data-dismiss="modal" class="btn btn-secondary">Close</button>
-            <button (click)="onUpdatePaper(editForm.value)" data-dismiss="modal" class="btn btn-primary" >Save changes</button>
+            <button (click)="onUpdatePaper(editForm.value)" data-dismiss="modal" class="btn btn-primary" >{{'Save' | translate }}</button>
           </div>
         </form>
       </div>
@@ -161,22 +157,22 @@
 
 
 
-&lt;!&ndash; Modal to delete a Paper &ndash;&gt;
+<!--&lt;!&ndash; Modal to delete a Paper &ndash;&gt;-->
 <div class="modal" id="deletePaperModal" tabindex="-1" aria-labelledby="deletePaperModal" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="deleteModalLabel">Lösche ein Paper</h5>
+        <h5 class="modal-title" id="deleteModalLabel">{{'DelteDate' | translate }}</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <p> {{delPaper?.title}} wirklich löschen?</p>
+        <p> {{delPaper?.title}} {{'DeleteCheck' | translate }}?</p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
 
-        <button (click)="onDeletePaper(delPaper.id)" type="button" class="btn btn-primary">Save changes</button>
+        <button (click)="onDeletePaper(delPaper.id)" type="button" class="btn btn-primary">{{'Save' | translate }}</button>
       </div>
     </div>
   </div>
-</div>-->
+</div>

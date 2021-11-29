@@ -23,7 +23,7 @@ export class AppComponent implements  OnInit{
 
   //injecting the PaperService
   constructor(private paperService: PaperService, public translate: TranslateService) {
-    translate.addLangs(['en', 'nl']);
+    translate.addLangs(['en', 'nl', 'de']);
     translate.setDefaultLang('en');
   }
 
@@ -57,6 +57,8 @@ export class AppComponent implements  OnInit{
       if (paper_i.title.toLocaleLowerCase().indexOf(key.toLocaleLowerCase()) !== -1
         || paper_i.contact_person.toLocaleLowerCase().indexOf(key.toLocaleLowerCase()) !== -1
         || paper_i.description.toLocaleLowerCase().indexOf(key.toLocaleLowerCase()) !== -1
+        || paper_i.division.toLocaleLowerCase().indexOf(key.toLocaleLowerCase()) !== -1
+        || paper_i.institute.toLocaleLowerCase().indexOf(key.toLocaleLowerCase()) !== -1
       )  {
         findings.push(paper_i);
       }

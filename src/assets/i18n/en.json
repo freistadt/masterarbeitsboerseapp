@@ -7,5 +7,19 @@
   "Password": "Password",
   "Bio": "Enter bio",
   "TermsConditions": "I agree to terms and conditions.",
-  "Submit": "Submit"
+  "Submit": "Submit",
+  "TranslationTest": "Translation Text",
+  "Title": "master thesis market",
+  "AddPaper": "Add new master thesis",
+  "SearchPlaceholder": "Search for a paper",
+  "AddTitle": "New thesis",
+  "PaperTitle": "Titel of the paper",
+  "PaperDescription": "Decription of the paper",
+  "ContactPerson": "Contact person",
+  "Save": "Save Changes",
+  "ChangeDate": "Change data",
+  "DeleteData": "Delte entry",
+  "DeleteCheck": "Are oyu sure you want to delte the entry",
+  "Division": "Division",
+  "Institute": "Institute"
 }

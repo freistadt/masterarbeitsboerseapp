@@ -1,0 +1,25 @@
+{
+  "Sitetitle": "Multi Language Test ",
+  "Name": "Name",
+  "NameError": "Please enter your name!",
+  "Email": "Email address",
+  "PhoneNo": "Phone No",
+  "Password": "Password",
+  "Bio": "Enter bio",
+  "TermsConditions": "I agree to terms and conditions.",
+  "Submit": "Submit",
+  "Title": "Masterarbeitsbörse",
+  "AddPaper": "Neue Arbeit hinzufügen",
+  "SearchPlaceholder": "Eine Arbeit suchen",
+  "AddTitle": "Neue Arbeit",
+  "PaperTitle": "Titel der Arbeit",
+  "PaperDescription": "Beschreibung der Arbeit",
+  "ContactPerson": "Kontakt Person",
+  "Save": "Änderungen speichern",
+  "ChangeDate": "Daten Ändern",
+  "DeleteData": "Eintrag Löschen",
+  "DeleteCheck": "Möchten Sie wirklich den Eintrag löschen",
+  "Division": "Division",
+  "Institute": "Institute"
+
+}
