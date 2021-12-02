@@ -4,6 +4,9 @@ import {PaperService} from "./paper.service";
 import {Paper} from "./paper";
 import {NgForm} from "@angular/forms";
 import { TranslateService } from '@ngx-translate/core';
+import {Observable} from "rxjs";
+import {FormControl} from '@angular/forms';
+import { FormBuilder, Validators, FormGroup } from "@angular/forms";
 
 
 @Component({
@@ -18,14 +21,26 @@ export class AppComponent implements  OnInit{
   //needed for example to know which Paper is currently edited
   public curPaper: Paper;
 
-  //selecet the delted Paper
+  //select the deleted Paper
   public delPaper: Paper;
+
+  // divisions = new FormControl();
+  // divisionList: string[] = [
+  //   'Finance & Accounting',
+  //   'Management & Marketing',
+  //   'Supply Chain & Information Management'
+  // ];
+
+  isValidated = false;
+  Fruits: any = ['Apple', 'Mengo', 'Banana', 'Strawberry']
 
   //injecting the PaperService
   constructor(private paperService: PaperService, public translate: TranslateService) {
     translate.addLangs(['en', 'nl', 'de']);
     translate.setDefaultLang('en');
   }
+
+
 
   lang: string
 
@@ -163,10 +178,11 @@ export class AppComponent implements  OnInit{
     );
   }
 
-
   switchLang(lang: string) {
     console.log(lang);
     this.translate.use(lang);
   }
+
+
 
 }
