@@ -32,15 +32,12 @@ export class AppComponent implements  OnInit{
   // ];
 
   isValidated = false;
-  Fruits: any = ['Apple', 'Mengo', 'Banana', 'Strawberry']
 
   //injecting the PaperService
   constructor(private paperService: PaperService, public translate: TranslateService) {
-    translate.addLangs(['en', 'nl', 'de']);
+    translate.addLangs(['en', 'de']);
     translate.setDefaultLang('en');
   }
-
-
 
   lang: string
 

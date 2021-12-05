@@ -20,6 +20,9 @@
   "DeleteData": "Eintrag Löschen",
   "DeleteCheck": "Möchten Sie wirklich den Eintrag löschen",
   "Division": "Division",
-  "Institute": "Institute"
+  "Institute": "Institute",
+  "isPaid": "mit Bezahlung",
+  "withPartner": "Mit Partnerfirma",
+  "Close": "Schließen"
 
 }

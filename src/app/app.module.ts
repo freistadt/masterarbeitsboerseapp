@@ -6,7 +6,9 @@ import {HttpClient, HttpClientModule} from "@angular/common/http";
 import  { FormsModule} from "@angular/forms";
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { ReactiveFormsModule } from '@angular/forms';
+
+import { EditorModule } from '@tinymce/tinymce-angular';
+
 
 
 // AOT compilation support
@@ -22,7 +24,6 @@ export function httpTranslateLoader(http: HttpClient) {
     BrowserModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

@@ -21,5 +21,8 @@
   "DeleteData": "Delte entry",
   "DeleteCheck": "Are oyu sure you want to delte the entry",
   "Division": "Division",
-  "Institute": "Institute"
+  "Institute": "Institute",
+  "isPaid": "includes payment",
+  "withPartner": "With a partner",
+  "Close": "Close"
 }

@@ -8,6 +8,9 @@ export interface  Paper {
   imageUrl: string;
   institute: string;
   division: string;
+  isPaid: boolean;
+  withPartner: boolean;
+
 
   //test for internalizer
   production: boolean;
