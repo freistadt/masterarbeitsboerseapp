@@ -1,7 +1,7 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {HttpClient, HttpErrorResponse, HttpRequest} from "@angular/common/http";
 import {PaperService} from "./paper.service";
-import {Paper} from "./paper";
+import {Paper} from "../models/paper";
 import {NgForm} from "@angular/forms";
 import { TranslateService } from '@ngx-translate/core';
 import {Observable} from "rxjs";
@@ -15,17 +15,40 @@ import { FormBuilder, Validators, FormGroup } from "@angular/forms";
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements  OnInit{
+
+  editForm = new FormGroup({
+    id: new FormControl(),
+    title: new FormControl(),
+    description: new FormControl(),
+    contact_person: new FormControl(),
+    institute: new FormControl(),
+    division: new FormControl(),
+    paid: new FormControl(),
+    withPartner: new FormControl(),
+    paperCode: new FormControl(),
+    imageUrl: new FormControl()
+  });
+
+  addForm = new FormGroup({
+    id: new FormControl(),
+    title: new FormControl(),
+    description: new FormControl(),
+    contact_person: new FormControl(),
+    institute: new FormControl(), // TODO Filter institutes when division form control changes
+    division: new FormControl(),
+    paid: new FormControl(),
+    withPartner: new FormControl(),
+    paperCode: new FormControl(),
+    imageUrl: new FormControl()
+  });
+
+  dropDownValues = ["1", "2", "3"]
+
   //class to save all paper form the backend
   papers: Paper[];
 
-  //needed for example to know which Paper is currently edited
-  public curPaper: Paper;
-
   //select the deleted Paper
   public delPaper: Paper;
-
-  //for the quill editor
-  editorForm: FormGroup;
 
   isValidated = false;
 
@@ -40,11 +63,6 @@ export class AppComponent implements  OnInit{
   //override the given Constructor
   ngOnInit() {
     this.getPapers();
-
-    //quilleditor
-    this.editorForm = new FormGroup({
-      'editor': new FormControl(null)
-    })
   }
 
   public getPapers(): void {
@@ -85,9 +103,20 @@ export class AppComponent implements  OnInit{
     }
   }
 
+  public editPaper(paper: Paper) {
+    this.editForm.setValue(paper);
+    this.onOpenModal("update");
+  }
+
+  public addPaper() {
+    // TODO Reset not working
+    this.addForm.reset();
+    this.onOpenModal("add");
+  }
+
   // Handling the different Modals. Argument Paper so you can have Modals and functions (add or delte or edit for the specifix paper
   //mode gets passed to the function know which one to open
-  public onOpenModal(paper: Paper, mode: string): void {
+  public onOpenModal(mode: string, paper?: Paper): void {
 
     //get acces to the div with the id mainContainer which is the whole page
     const container = document.getElementById('mainContainer');
@@ -103,12 +132,16 @@ export class AppComponent implements  OnInit{
     // #because the are IDs (html)
     if(mode === 'update') {
       //set the active (Paper that was clicked on) to this paper -- can be binded in the html form
-      this.curPaper = paper;
       button.setAttribute('data-target', '#updatePaperModal');
     }
-    if(mode === 'delete') {
-      this.delPaper = paper;
+    else if(mode === 'delete') {
+      if (paper !== undefined) {
+        this.delPaper = paper;
+      }
       button.setAttribute('data-target', '#deletePaperModal');
+    }
+    else if (mode === "add") {
+      button.setAttribute('data-target', '#updatePaperModal');
     }
 
     // !-Operator ist used to surpress error since we know the specific Object exists
@@ -116,50 +149,43 @@ export class AppComponent implements  OnInit{
     button.click();
   }
 
-
-//case no paper as Input (for the add function)
-  public onOpenModalNoInput(mode: string): void {
-    const button = document.createElement('button');
-    button.type = 'button';
-    button.style.display = 'none'
-    button.setAttribute('data-toggle', 'modal');
-    button.setAttribute('data-target', '#addPaperModal');
-    const container = document.getElementById('mainContainer');
-    container!.appendChild(button);
-    button.click();
-  }
-
   //gets the data that a User filled into the Form Element (a Modal)
-  public onNewPaper(addForm: NgForm): void {
-    //close the Modal automatically after the User clicks submit
-    const closeButton = document.getElementById('close-add-paper-form');
-    closeButton!.click();
-    //subscribe --> waiting for this to happen (Listener)
-    this.paperService.addPapers(addForm.value).subscribe(
-      //when no error execute the response part when its an error execute the error part
-      (response: Paper) => {
-        //Todo delete later
-        console.log(response);
-        this.getPapers()
-      },
-      (error: HttpErrorResponse) => {
-        alert(error.message);
-      }
-    );
+  public onNewPaper(): void {
+    if (this.addForm.valid) {
+      let paper = this.addForm.value;
+      //close the Modal automatically after the User clicks submit
+      const closeButton = document.getElementById('close-add-paper-form');
+      closeButton!.click();
+      //subscribe --> waiting for this to happen (Listener)
+      this.paperService.addPapers(paper).subscribe(
+        //when no error execute the response part when its an error execute the error part
+        (response: Paper) => {
+          //Todo delete later
+          console.log(response);
+          this.getPapers()
+        },
+        (error: HttpErrorResponse) => {
+          alert(error.message);
+        }
+      );
+    }
   }
 
   //updates a paper
-  public onUpdatePaper(paper: Paper): void {
-    this.paperService.updatePapers(paper).subscribe(
-      (response: Paper) => {
-        console.log(response);
-        //reload the page to show changes
-        this.getPapers()
-      },
-      (error: HttpErrorResponse) => {
-        alert(error.message);
-      }
-    );
+  public onUpdatePaper(): void {
+    if (this.editForm.valid) {
+      let paper = this.editForm.value;
+      this.paperService.updatePapers(paper).subscribe(
+        (response: Paper) => {
+          console.log(response);
+          //reload the page to show changes
+          this.getPapers()
+        },
+        (error: HttpErrorResponse) => {
+          alert(error.message);
+        }
+      );
+    }
   }
 
   //deletes a paper

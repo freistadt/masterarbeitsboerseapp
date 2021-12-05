@@ -8,7 +8,7 @@ export interface  Paper {
   imageUrl: string;
   institute: string;
   division: string;
-  isPaid: boolean;
+  paid: boolean;
   withPartner: boolean;
 
 

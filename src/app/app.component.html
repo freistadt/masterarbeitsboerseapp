@@ -7,7 +7,7 @@
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
 <!--        call the function to open a Modal (app-componnent.ts)-->
-        <a class="nav-link" (click)="onOpenModalNoInput('add')">{{'AddPaper' | translate }}  <span class="sr-only">(current)</span></a>
+        <a class="nav-link" (click)="addPaper()">{{'AddPaper' | translate }}  <span class="sr-only">(current)</span></a>
       </li>
     </ul>
     <form class="form-inline my-2 my-lg-0">
@@ -31,11 +31,14 @@
 
 <p> Drop Down Divisionen</p>
 
-<select class="form-control" name="demo" id="#dd">
-  <option selected="selected" value="one">Finance & Accounting</option>
-  <option value="two">Management & Marketing</option>
-  <option value="three">Supply Chain & Information Management</option>
-</select>
+<div *ngFor = "let item in dropDownValues">
+  <select class="form-control" name="demo" id="#dd">
+    <option selected="selected" value="">Finance & Accounting</option>
+    <option value="two">Management & Marketing</option>
+    <option value="three">Supply Chain & Information Management</option>
+  </select>
+</div>
+
 
 <!--<p i18n="Test Description | Test Title for the Test Construction@@Testparagraph"> TEST TRANSLATE</p>-->
 <!--Test editor-->
@@ -76,7 +79,7 @@
               <h6 class="mb-0">{{paper?.id}}</h6> <span>{{paper?.contact_person}}</span>
             </div>
           </div>
-          <div class="badge"> <span>{{paper?.isPaid}}</span> </div>
+          <div class="badge"> <span>{{paper?.paid}}</span> </div>
         </div>
         <div class="mt-5">
           <h3 class="heading">{{paper?.title}}</h3>
@@ -85,16 +88,19 @@
           <h5 class="heading">Institute: {{paper?.institute}}</h5>
         </div>
         <div class="mt-5">
+          <h5 class="heading" [innerHTML]=paper?.description></h5>
+        </div>
+        <div class="mt-5">
           <h5 class="heading">Division: {{paper?.division}}</h5>
         </div>
         <div class="mt-5">
 
-          <div *ngIf="paper?.isPaid; else elseBlock">Content to render when condition is true.</div>
+          <div *ngIf="paper?.paid; else elseBlock">Content to render when condition is true.</div>
           <ng-template #elseBlock>Content to render when condition is false.</ng-template>
         </div>
         <div class="float-right btn-group btn-group-sm">
-          <a (click)="onOpenModal(paper, 'update')" class="btn btn-primary tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-pencil"></i> </a>
-          <a (click)="onOpenModal(paper, 'delete')" class="btn btn-secondary tooltips" data-placement="top" data-original-title="Delete"><i class="fa fa-times"></i></a>
+          <a (click)="editPaper(paper)" class="btn btn-primary tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-pencil"></i> </a>
+          <a (click)="onOpenModal('delete', paper)" class="btn btn-secondary tooltips" data-placement="top" data-original-title="Delete"><i class="fa fa-times"></i></a>
         </div>
       </div>
     </div>
@@ -104,6 +110,7 @@
 
 <!--Add Paper Modal -->
 <div class="modal" id="addPaperModal" tabindex="-1" role="dialog" aria-labelledby="addPaperModalLabel" aria-hidden="true">
+  <form [formGroup]="addForm" (ngSubmit)="onNewPaper()">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -114,37 +121,34 @@
       </div>
       <div class="modal-body">
 <!--        Form is a JSON File -->
-        <form #addForm="ngForm" (ngSubmit)="onNewPaper(addForm)">
           <div class="form-group">
             <label for="title">{{'PaperTitle' | translate }}</label>
 <!-- ngModul for the name is needed that the ts File Functions can access the value-->
-            <input type="text" ngModel name="title" class="form-control" id="title" placeholder="{{'PaperTitle' | translate }}" required>
+            <input type="text" formControlName="title" name="title" class="form-control" id="title" placeholder="{{'PaperTitle' | translate }}" required>
           </div>
           <div class="form-group">
             <label for="description">{{'PaperDescription' | translate }}</label>
-            <input type="text" ngModel name="description" class="form-control" id="description" placeholder="{{'PaperDescription' | translate }}" required>
+            <input type="text" formControlName="description" name="description" class="form-control" id="description" placeholder="{{'PaperDescription' | translate }}" required>
           </div>
           <div class="form-group">
             <label for="contact_person">{{'ContactPerson' | translate }}</label>
-            <input type="text" ngModel name="contact_person" class="form-control" id="contact_person" placeholder="{{'ContactPerson' | translate }}" required>
+            <input type="text" formControlName="contact_person" name="contact_person" class="form-control" id="contact_person" placeholder="{{'ContactPerson' | translate }}" required>
           </div>
           <div class="form-group">
             <label for="division">{{'Division' | translate }}</label>
-            <input type="text" ngModel name="division" class="form-control" id="division" placeholder="{{'Division' | translate }}" >
+            <input type="text" formControlName="division" name="division" class="form-control" id="division" placeholder="{{'Division' | translate }}" >
           </div>
           <div class="form-group">
             <label for="institute">{{'Institute' | translate }}</label>
-            <input type="text" ngModel name="institute" class="form-control" id="institute" placeholder="{{'Institute' | translate }}" required>
+            <input type="text" formControlName="institute" name="institute" class="form-control" id="institute" placeholder="{{'Institute' | translate }}" required>
           </div>
           //TODO send data to backend.
           <div>
-<!--            <input type="checkbox" id="isPaid" name="isPaid">-->
-<!--            <label for="isPaid">{{'isPaid' | translate }}</label>-->
-
-            <input type="checkbox" id="isPaid" ng-model="isPaidCheck" ng-change="checkAll(check)" ng-true-value="YES" ng-false-value="NO"/> {{'isPaid' | translate }}
+            <input type="checkbox" formControlName="paid" id="isPaid" name="isPaid">-->
+            <label for="isPaid">{{'isPaid' | translate }}</label>-->
           </div>
           <div>
-            <input type="checkbox" id="withPartner" name="withPartner">
+            <input formControlName="withPartner" type="checkbox" id="withPartner" name="withPartner" >
             <label for="withPartner">{{'withPartner' | translate }}</label>
           </div>
 
@@ -153,63 +157,80 @@
 <!--            This means a invalid form cant be submitted because the button is diabled-->
             <button [disabled]="addForm.invalid" type="submit" class="btn btn-primary">{{'Save' | translate }}</button>
           </div>
-        </form>
       </div>
     </div>
   </div>
+  </form>
 </div>
 
 <!-- Modal to edit/configure an Paper -->
 <div class="modal" id="updatePaperModal" tabindex="-1" aria-labelledby="updatePaperModal" aria-hidden="true">
+  <form [formGroup]="editForm">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="updatePaperModalLabel">{{'ChangeDate' | translate }} {{curPaper?.title}}</h5>
+        <h5 class="modal-title" id="updatePaperModalLabel">{{'ChangeDate' | translate }} formControlName="title" </h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <form #editForm="ngForm">
           <div class="form-group">
             <label for="title">{{'PaperTitle' | translate }}</label>
-            <input type="text" ngModel="{{curPaper?.title}}" name="title" class="form-control" id="titleEdit" aria-describedby="emailHelp" placeholder="{{'PaperTitle' | translate }}">
+            <input type="text" formControlName="title" name="title" class="form-control" id="titleEdit" aria-describedby="emailHelp" placeholder="{{'PaperTitle' | translate }}">
           </div>
 <!--          hidden because id should not be updatet but id is needed for Hibernate to not create anew Paper-->
 <!--           tODO add PaperCode if neccessary-->
-          <input type="hidden" ngModel="{{curPaper?.id}}" name="id" class="form-control" id="id" placeholder="ID">
-          <div class="form-group">
-            <label for="Description">{{'PaperDescription' | translate }}</label>
-            <input type="text" ngModel="{{curPaper?.description}}" name="description" class="form-control" id="descriptionEdited" placeholder="{{'PaperDescription' | translate }}">
-          </div>
+          <input type="hidden" formControlName="id" name="id" class="form-control" id="id" placeholder="ID">
+        <label for="Description">{{'PaperDescription' | translate }}</label>-->
+        <editor  apiKey="jylqczf5m0u5lbxesf4zlzu5c3oaolfispstuwyj0838ejoe" formControlName="description"
+          [init]="{
+           height: 500,
+           menubar: false,
+           plugins: [
+             'advlist autolink lists link image charmap print preview anchor',
+             'searchreplace visualblocks code fullscreen',
+             'insertdatetime media table paste code help wordcount'
+           ],
+           toolbar:
+             'undo redo | formatselect | bold italic backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help'
+         }"
+        ></editor>
           <div class="form-group">
             <label for="contact_person">{{'ContactPerson' | translate }}</label>
-            <input type="text" ngModel="{{curPaper?.contact_person}}" name="contact_person" class="form-control" id="contact_personEdited" placeholder="{{'ContactPerson' | translate }}">
+            <input type="text" formControlName="contact_person" name="contact_person" class="form-control" id="contact_personEdited" placeholder="{{'ContactPerson' | translate }}">
           </div>
           <div class="form-group">
             <label for="division">{{'Division' | translate }}</label>
-            <input type="text" ngModel name="division" class="form-control" id="divisionEdited" placeholder="{{'Division' | translate }}" required>
+            <select class="form-control" formControlName="division">
+              <option selected="selected" value="Finance & Accounting">Finance & Accounting</option>
+              <option value="Management & Marketing">Management & Marketing</option>
+              <option value="Supply Chain & Information Management">Supply Chain & Information Management</option>
+            </select>
+<!--            <input type="text" formControlName="division"name="division" class="form-control" id="divisionEdited" placeholder="{{'Division' | translate }}" required>-->
           </div>
           <div class="form-group">
             <label for="institute">{{'Institute' | translate }}</label>
-            <input type="text" ngModel name="institute" class="form-control" id="instituteEdited" placeholder="{{'Institute' | translate }}" required>
+            <input type="text" formControlName="institute" name="institute" class="form-control" id="instituteEdited" placeholder="{{'Institute' | translate }}" required>
+          </div>
+
+          <div>
+            <input formControlName="paid" type="checkbox" id="isPaidEdited" name="paid">
+            <label for="paid">{{'paid' | translate }}</label>
           </div>
           <div>
-            <input type="checkbox" id="isPaidEdited" name="isPaid" checked>
-            <label for="isPaid">{{'isPaid' | translate }}</label>
-          </div>
-          <div>
-            <input type="checkbox" id="withPartnerEdited" name="withPartner">
+            <input formControlName="withPartner" type="checkbox" id="withPartnerEdited" name="withPartner">
             <label for="withPartner">{{'withPartner' | translate }}</label>
           </div>
           <div class="modal-footer">
             <button type="button" id="" data-dismiss="modal" class="btn btn-secondary">{{'Close' | translate }}</button>
-            <button (click)="onUpdatePaper(editForm.value)" data-dismiss="modal" class="btn btn-primary" >{{'Save' | translate }}</button>
+            <button (click)="onUpdatePaper()" data-dismiss="modal" class="btn btn-primary" >{{'Save' | translate }}</button>
           </div>
-        </form>
+
       </div>
     </div>
   </div>
+  </form>
 </div>
 
 
