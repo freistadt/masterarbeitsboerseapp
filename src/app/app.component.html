@@ -29,15 +29,6 @@
   </div>
 </nav>
 
-<p> Drop Down Divisionen</p>
-
-<div *ngFor = "let item in dropDownValues">
-  <select class="form-control" name="demo" id="#dd">
-    <option selected="selected" value="">Finance & Accounting</option>
-    <option value="two">Management & Marketing</option>
-    <option value="three">Supply Chain & Information Management</option>
-  </select>
-</div>
 
 
 <!--<p i18n="Test Description | Test Title for the Test Construction@@Testparagraph"> TEST TRANSLATE</p>-->
@@ -88,7 +79,8 @@
           <h5 class="heading">Institute: {{paper?.institute}}</h5>
         </div>
         <div class="mt-5">
-          <h5 class="heading" [innerHTML]=paper?.description></h5>
+          Description:
+          <h5 class="heading" [innerHTML]=paper?.description>Description</h5>
         </div>
         <div class="mt-5">
           <h5 class="heading">Division: {{paper?.division}}</h5>
@@ -203,15 +195,26 @@
           <div class="form-group">
             <label for="division">{{'Division' | translate }}</label>
             <select class="form-control" formControlName="division">
-              <option selected="selected" value="Finance & Accounting">Finance & Accounting</option>
-              <option value="Management & Marketing">Management & Marketing</option>
-              <option value="Supply Chain & Information Management">Supply Chain & Information Management</option>
+              <option *ngFor="let value of divisionDropdownValues"
+                      [value]="value">
+                {{value}}
+              </option>
+
             </select>
 <!--            <input type="text" formControlName="division"name="division" class="form-control" id="divisionEdited" placeholder="{{'Division' | translate }}" required>-->
           </div>
           <div class="form-group">
             <label for="institute">{{'Institute' | translate }}</label>
+            <select class="form-control" formControlName="institute">
+              <option *ngFor="let value of instituteDropDownValues"
+                      [value]="value">
+                {{value}}
+              </option>
+
+            </select>
+<!--
             <input type="text" formControlName="institute" name="institute" class="form-control" id="instituteEdited" placeholder="{{'Institute' | translate }}" required>
+-->
           </div>
 
           <div>

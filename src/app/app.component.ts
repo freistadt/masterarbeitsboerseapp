@@ -42,7 +42,16 @@ export class AppComponent implements  OnInit{
     imageUrl: new FormControl()
   });
 
-  dropDownValues = ["1", "2", "3"]
+
+  divisionDropdownValues = ["Finance & Accounting", "Management & Marketing", "Supply Chain & Information Management"]
+  instituteHashMap = new Map<string, string[]>([
+    //TODO Hardcode values in Array here
+    ["Finance & Accounting", ["value1"]],
+    ["Management & Marketing", ["value2"]],
+    ["Supply Chain & Information Management", ["value3"]],
+  ]);
+
+  instituteDropDownValues: string[] = [];
 
   //class to save all paper form the backend
   papers: Paper[];
@@ -62,6 +71,12 @@ export class AppComponent implements  OnInit{
 
   //override the given Constructor
   ngOnInit() {
+    this.editForm.get("division")?.valueChanges.subscribe(x => {
+        let values = this.instituteHashMap.get(x);
+        if(values !== undefined) {
+          this.instituteDropDownValues = values;
+        }
+      });
     this.getPapers();
   }
 
