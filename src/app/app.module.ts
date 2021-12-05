@@ -3,12 +3,10 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
 import {HttpClient, HttpClientModule} from "@angular/common/http";
-import  { FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-
-import { EditorModule } from '@tinymce/tinymce-angular';
-
+//import {QuillModule} from "ngx-quill";
 
 
 // AOT compilation support
@@ -24,13 +22,15 @@ export function httpTranslateLoader(http: HttpClient) {
     BrowserModule,
     HttpClientModule,
     FormsModule,
+    //QuillModule.forRoot(),
+    ReactiveFormsModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
         useFactory: httpTranslateLoader,
         deps: [HttpClient]
       }
-    })
+    }),
   ],
   providers: [],
   bootstrap: [AppComponent]

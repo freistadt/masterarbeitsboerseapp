@@ -38,6 +38,31 @@
 </select>
 
 <!--<p i18n="Test Description | Test Title for the Test Construction@@Testparagraph"> TEST TRANSLATE</p>-->
+<!--Test editor-->
+<!--<form [formGroup]="editorForm" (ngSubmit)="onSubmit()">-->
+<!--  <div class="form-group">-->
+<!--    <label for='editor'></label>-->
+<!--    <quill-editor formControlName="editor"></quill-editor>-->
+<!--  </div>-->
+<!--</form>-->
+
+<!-- Include stylesheet -->
+<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+<!-- Create the editor container -->
+<div id="editor">
+  <p>Hello World!</p>
+  <p>Some initial <strong>bold</strong> text</p>
+  <p><br></p>
+</div>
+<!-- Include the Quill library -->
+<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+<!-- Initialize Quill editor -->
+<script>
+  var quill = new Quill('#editor', {
+    theme: 'snow'
+  });
+</script>
+
 
 <div class="container mt-5 mb-3" id="mainContainer">
   <div class="row">
@@ -51,7 +76,7 @@
               <h6 class="mb-0">{{paper?.id}}</h6> <span>{{paper?.contact_person}}</span>
             </div>
           </div>
-          <div class="badge"> <span>Design</span> </div>
+          <div class="badge"> <span>{{paper?.isPaid}}</span> </div>
         </div>
         <div class="mt-5">
           <h3 class="heading">{{paper?.title}}</h3>
@@ -61,6 +86,11 @@
         </div>
         <div class="mt-5">
           <h5 class="heading">Division: {{paper?.division}}</h5>
+        </div>
+        <div class="mt-5">
+
+          <div *ngIf="paper?.isPaid; else elseBlock">Content to render when condition is true.</div>
+          <ng-template #elseBlock>Content to render when condition is false.</ng-template>
         </div>
         <div class="float-right btn-group btn-group-sm">
           <a (click)="onOpenModal(paper, 'update')" class="btn btn-primary tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-pencil"></i> </a>
@@ -88,28 +118,30 @@
           <div class="form-group">
             <label for="title">{{'PaperTitle' | translate }}</label>
 <!-- ngModul for the name is needed that the ts File Functions can access the value-->
-            <input type="text" ngModel name="title" class="form-control" id="title" placeholder="Title" required>
+            <input type="text" ngModel name="title" class="form-control" id="title" placeholder="{{'PaperTitle' | translate }}" required>
           </div>
           <div class="form-group">
             <label for="description">{{'PaperDescription' | translate }}</label>
-            <input type="text" ngModel name="description" class="form-control" id="description" placeholder="Description" required>
+            <input type="text" ngModel name="description" class="form-control" id="description" placeholder="{{'PaperDescription' | translate }}" required>
           </div>
           <div class="form-group">
             <label for="contact_person">{{'ContactPerson' | translate }}</label>
-            <input type="text" ngModel name="contact_person" class="form-control" id="contact_person" placeholder="Contact Person" required>
+            <input type="text" ngModel name="contact_person" class="form-control" id="contact_person" placeholder="{{'ContactPerson' | translate }}" required>
           </div>
           <div class="form-group">
             <label for="division">{{'Division' | translate }}</label>
-            <input type="text" ngModel name="division" class="form-control" id="division" placeholder="Division" >
+            <input type="text" ngModel name="division" class="form-control" id="division" placeholder="{{'Division' | translate }}" >
           </div>
           <div class="form-group">
             <label for="institute">{{'Institute' | translate }}</label>
-            <input type="text" ngModel name="institute" class="form-control" id="institute" placeholder="Division" required>
+            <input type="text" ngModel name="institute" class="form-control" id="institute" placeholder="{{'Institute' | translate }}" required>
           </div>
           //TODO send data to backend.
           <div>
-            <input type="checkbox" id="isPaid" name="isPaid">
-            <label for="isPaid">{{'isPaid' | translate }}</label>
+<!--            <input type="checkbox" id="isPaid" name="isPaid">-->
+<!--            <label for="isPaid">{{'isPaid' | translate }}</label>-->
+
+            <input type="checkbox" id="isPaid" ng-model="isPaidCheck" ng-change="checkAll(check)" ng-true-value="YES" ng-false-value="NO"/> {{'isPaid' | translate }}
           </div>
           <div>
             <input type="checkbox" id="withPartner" name="withPartner">
@@ -141,29 +173,29 @@
         <form #editForm="ngForm">
           <div class="form-group">
             <label for="title">{{'PaperTitle' | translate }}</label>
-            <input type="text" ngModel="{{curPaper?.title}}" name="title" class="form-control" id="titleEdit" aria-describedby="emailHelp" placeholder="Title">
+            <input type="text" ngModel="{{curPaper?.title}}" name="title" class="form-control" id="titleEdit" aria-describedby="emailHelp" placeholder="{{'PaperTitle' | translate }}">
           </div>
 <!--          hidden because id should not be updatet but id is needed for Hibernate to not create anew Paper-->
 <!--           tODO add PaperCode if neccessary-->
           <input type="hidden" ngModel="{{curPaper?.id}}" name="id" class="form-control" id="id" placeholder="ID">
           <div class="form-group">
             <label for="Description">{{'PaperDescription' | translate }}</label>
-            <input type="text" ngModel="{{curPaper?.description}}" name="description" class="form-control" id="descriptionEdited" placeholder="Description">
+            <input type="text" ngModel="{{curPaper?.description}}" name="description" class="form-control" id="descriptionEdited" placeholder="{{'PaperDescription' | translate }}">
           </div>
           <div class="form-group">
             <label for="contact_person">{{'ContactPerson' | translate }}</label>
-            <input type="text" ngModel="{{curPaper?.contact_person}}" name="contact_person" class="form-control" id="contact_personEdited" placeholder="Contact Person">
+            <input type="text" ngModel="{{curPaper?.contact_person}}" name="contact_person" class="form-control" id="contact_personEdited" placeholder="{{'ContactPerson' | translate }}">
           </div>
           <div class="form-group">
             <label for="division">{{'Division' | translate }}</label>
-            <input type="text" ngModel name="division" class="form-control" id="divisionEdited" placeholder="Division" required>
+            <input type="text" ngModel name="division" class="form-control" id="divisionEdited" placeholder="{{'Division' | translate }}" required>
           </div>
           <div class="form-group">
             <label for="institute">{{'Institute' | translate }}</label>
-            <input type="text" ngModel name="institute" class="form-control" id="instituteEdited" placeholder="Division" required>
+            <input type="text" ngModel name="institute" class="form-control" id="instituteEdited" placeholder="{{'Institute' | translate }}" required>
           </div>
           <div>
-            <input type="checkbox" id="isPaidEdited" name="isPaid">
+            <input type="checkbox" id="isPaidEdited" name="isPaid" checked>
             <label for="isPaid">{{'isPaid' | translate }}</label>
           </div>
           <div>

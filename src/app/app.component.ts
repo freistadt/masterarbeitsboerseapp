@@ -24,12 +24,8 @@ export class AppComponent implements  OnInit{
   //select the deleted Paper
   public delPaper: Paper;
 
-  // divisions = new FormControl();
-  // divisionList: string[] = [
-  //   'Finance & Accounting',
-  //   'Management & Marketing',
-  //   'Supply Chain & Information Management'
-  // ];
+  //for the quill editor
+  editorForm: FormGroup;
 
   isValidated = false;
 
@@ -39,11 +35,16 @@ export class AppComponent implements  OnInit{
     translate.setDefaultLang('en');
   }
 
-  lang: string
+  lang: string;
 
   //override the given Constructor
   ngOnInit() {
     this.getPapers();
+
+    //quilleditor
+    this.editorForm = new FormGroup({
+      'editor': new FormControl(null)
+    })
   }
 
   public getPapers(): void {
@@ -181,5 +182,7 @@ export class AppComponent implements  OnInit{
   }
 
 
+  onSubmit() {
 
+  }
 }
