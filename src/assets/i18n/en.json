@@ -19,10 +19,12 @@
   "Save": "Save Changes",
   "ChangeDate": "Change data",
   "DeleteData": "Delte entry",
-  "DeleteCheck": "Are oyu sure you want to delete the entry",
+  "DeleteCheck": "Are you sure you want to delete the entry",
   "Division": "Division",
   "Institute": "Institute",
   "isPaid": "includes payment",
   "withPartner": "With a partner",
-  "Close": "Close"
+  "Close": "Close",
+  "Paid": "Paid",
+  "NotPaid": "Not Paid"
 }

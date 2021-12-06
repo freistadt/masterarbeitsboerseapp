@@ -23,6 +23,8 @@
   "Institute": "Institute",
   "isPaid": "mit Bezahlung",
   "withPartner": "Mit Partnerfirma",
-  "Close": "Schließen"
+  "Close": "Schließen",
+  "Paid": "Bezahlt",
+  "NotPaid": "Nicht Bezahlt"
 
 }

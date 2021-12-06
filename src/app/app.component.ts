@@ -43,12 +43,12 @@ export class AppComponent implements  OnInit{
   });
 
 
-  divisionDropdownValues = ["Finance & Accounting", "Management & Marketing", "Supply Chain & Information Management"]
+  divisionDropdownValues = ["Finance & Accounting", "Management & Marketing", "Supply Chain & Information Management", "Wirtschaftsinformatik"]
   instituteHashMap = new Map<string, string[]>([
-    //TODO Hardcode values in Array here
-    ["Finance & Accounting", ["value1"]],
-    ["Management & Marketing", ["value2"]],
-    ["Supply Chain & Information Management", ["value3"]],
+    ["Finance & Accounting", ["Betriebliche Finanzwirtschaft", "Betriebswirtschaftliche Steuerlehre", "Controlling und Consulting", "Management Accounting", "Public und Nonprofit Management", "Unternehmensrechnung und Wirtschaftsprüfung"]],
+    ["Management & Marketing", ["Personalführung und Veränderungsmanagement", "Innovationsmanagement", "Internationales Management", "Organisation", "Strategisches Management", "Unternehmensgründung und Unternehmensentwicklung"]],
+    ["Supply Chain & Information Management", ["Digital Business", "Produktions- und Logistikmanagement", "Wirtschaftsinformatik - Communications Engineering", "Information Engineering", "Software Engineering"]],
+    ["Wirtschaftsinformatik", ["Software Engineering", "Data & Knowledge Engineering", "Communications Engineering", "Information Engineering"]],
   ]);
 
   instituteDropDownValues: string[] = [];
@@ -156,7 +156,7 @@ export class AppComponent implements  OnInit{
       button.setAttribute('data-target', '#deletePaperModal');
     }
     else if (mode === "add") {
-      button.setAttribute('data-target', '#updatePaperModal');
+      button.setAttribute('data-target', '#addPaperModal');
     }
 
     // !-Operator ist used to surpress error since we know the specific Object exists
