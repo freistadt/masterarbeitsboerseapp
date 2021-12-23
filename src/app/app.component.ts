@@ -7,6 +7,9 @@ import { TranslateService } from '@ngx-translate/core';
 import {Observable} from "rxjs";
 import {FormControl} from '@angular/forms';
 import { FormBuilder, Validators, FormGroup } from "@angular/forms";
+import { formatDate } from '@angular/common';
+import {OidcSecurityService} from "angular-auth-oidc-client";
+
 
 
 @Component({
@@ -26,7 +29,9 @@ export class AppComponent implements  OnInit{
     paid: new FormControl(),
     withPartner: new FormControl(),
     paperCode: new FormControl(),
-    imageUrl: new FormControl()
+    imageUrl: new FormControl(),
+    startDate: new FormControl(),
+    endDate: new FormControl()
   });
 
   addForm = new FormGroup({
@@ -39,10 +44,13 @@ export class AppComponent implements  OnInit{
     paid: new FormControl(),
     withPartner: new FormControl(),
     paperCode: new FormControl(),
-    imageUrl: new FormControl()
+    imageUrl: new FormControl(),
+    startDate: new FormControl(),
+    endDate: new FormControl()
   });
 
 
+  //for the Dropdown in the add and change modal
   divisionDropdownValues = ["Finance & Accounting", "Management & Marketing", "Supply Chain & Information Management", "Wirtschaftsinformatik"]
   instituteHashMap = new Map<string, string[]>([
     ["Finance & Accounting", ["Betriebliche Finanzwirtschaft", "Betriebswirtschaftliche Steuerlehre", "Controlling und Consulting", "Management Accounting", "Public und Nonprofit Management", "Unternehmensrechnung und Wirtschaftsprüfung"]],
@@ -58,11 +66,12 @@ export class AppComponent implements  OnInit{
 
   //select the deleted Paper
   public delPaper: Paper;
+  public curPaper: Paper;
 
   isValidated = false;
 
   //injecting the PaperService
-  constructor(private paperService: PaperService, public translate: TranslateService) {
+  constructor(private paperService: PaperService, public translate: TranslateService, public oidcSecurityService: OidcSecurityService) {
     translate.addLangs(['en', 'de']);
     translate.setDefaultLang('en');
   }
@@ -78,6 +87,18 @@ export class AppComponent implements  OnInit{
         }
       });
     this.getPapers();
+
+    this.oidcSecurityService.checkAuth().subscribe(({ isAuthenticated, userData, accessToken, idToken }) => {
+      /*...*/
+    });
+  }
+
+  login() {
+    this.oidcSecurityService.authorize();
+  }
+
+  logout() {
+    this.oidcSecurityService.logoff();
   }
 
   public getPapers(): void {
@@ -129,6 +150,20 @@ export class AppComponent implements  OnInit{
     this.onOpenModal("add");
   }
 
+  public viewPaper(paper: Paper) {
+    this.onOpenModal("view");
+    console.log(paper.title);
+    this.paperService.addPapers(paper).subscribe(
+      //when no error execute the response part when its an error execute the error part
+      (response: Paper) => {
+        this.getPapers()
+      },
+      (error: HttpErrorResponse) => {
+        alert(error.message);
+      }
+    );
+  }
+
   // Handling the different Modals. Argument Paper so you can have Modals and functions (add or delte or edit for the specifix paper
   //mode gets passed to the function know which one to open
   public onOpenModal(mode: string, paper?: Paper): void {
@@ -158,6 +193,15 @@ export class AppComponent implements  OnInit{
     else if (mode === "add") {
       button.setAttribute('data-target', '#addPaperModal');
     }
+    else if (mode === "view") {
+      button.setAttribute('data-target', '#viewPaperModal');
+      if (paper !== undefined) {
+        console.log("ggg");
+        this.curPaper = paper;
+      }
+
+    }
+
 
     // !-Operator ist used to surpress error since we know the specific Object exists
     container!.appendChild(button);
@@ -217,6 +261,8 @@ export class AppComponent implements  OnInit{
     );
   }
 
+
+  //changing between the languages (de|en)
   switchLang(lang: string) {
     console.log(lang);
     this.translate.use(lang);
@@ -226,4 +272,6 @@ export class AppComponent implements  OnInit{
   onSubmit() {
 
   }
+
+
 }

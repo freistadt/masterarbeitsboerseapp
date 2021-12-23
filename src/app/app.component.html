@@ -26,8 +26,13 @@
         </option>
       </select>
     </span>
+    <button (click)="login()"></button>
   </div>
 </nav>
+
+TEST
+<button>Toggle h2 tag</button>
+
 
 <div class="container mt-5 mb-3" id="mainContainer">
   <div class="row">
@@ -58,11 +63,15 @@
           <h5 class="heading">Division: {{paper?.division}}</h5>
         </div>
         <div class="mt-5">
+          <h5 class="heading">Start date: {{paper?.startDate}}</h5>
+        </div>
+        <div class="mt-5">
 
           <div *ngIf="paper?.paid; else elseBlock">{{'Paid' | translate }}</div>
           <ng-template #elseBlock>{{'NotPaid' | translate }}</ng-template>
         </div>
         <div class="float-right btn-group btn-group-sm">
+          <a (click)="viewPaper(paper)" class="btn btn-primary tooltips" data-placement="top" data-original-title="View"><i class="fa fa-info"></i> </a>
           <a (click)="editPaper(paper)" class="btn btn-primary tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-pencil"></i> </a>
           <a (click)="onOpenModal('delete', paper)" class="btn btn-secondary tooltips" data-placement="top" data-original-title="Delete"><i class="fa fa-times"></i></a>
         </div>
@@ -70,7 +79,6 @@
     </div>
   </div>
 </div>
-
 
 <!--Add Paper Modal -->
 <div class="modal" id="addPaperModal" tabindex="-1" role="dialog" aria-labelledby="addPaperModalLabel" aria-hidden="true">
@@ -134,7 +142,14 @@
             <input formControlName="withPartner" type="checkbox" id="withPartner" name="withPartner" >
             <label for="withPartner">{{'withPartner' | translate }}</label>
           </div>
-
+        <div>
+          <label for="startDate">{{'startDate' | translate }} </label>
+          <input formControlName="startDate" type="date" id="startDate" name="startDate" >
+        </div>
+        <div>
+          <label for="endDate">{{'endDate' | translate }} </label>
+          <input formControlName="startDate" type="date" id="endDate" name="startDate" >
+        </div>
           <div class="modal-footer">
             <button type="button" id="close-add-paper-form" class="btn btn-secondary" data-dismiss="modal">{{'Close' | translate }}</button>
 <!--            This means a invalid form cant be submitted because the button is diabled-->
@@ -209,14 +224,21 @@
             <input formControlName="withPartner" type="checkbox" id="withPartnerEdited" name="withPartner">
             <label for="withPartner">{{'withPartner' | translate }}</label>
           </div>
+        <div>
+          <label for="startDate">{{'startDate' | translate }} </label>
+          <input formControlName="startDate" type="date" id="startDateEdited" name="startDate" >
+        </div>
+        <div>
+          <label for="endDate">{{'endDate' | translate }} </label>
+          <input formControlName="startDate" type="date" id="endDateEdited" name="startDate" >
+        </div>
+        </div>
           <div class="modal-footer">
             <button type="button" id="" data-dismiss="modal" class="btn btn-secondary">{{'Close' | translate }}</button>
             <button (click)="onUpdatePaper()" data-dismiss="modal" class="btn btn-primary" >{{'Save' | translate }}</button>
           </div>
-
       </div>
     </div>
-  </div>
   </form>
 </div>
 
@@ -227,7 +249,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="deleteModalLabel">{{'DelteDate' | translate }}</h5>
+        <h5 class="modal-title" id="deleteModalLabel">{{'DeleteData' | translate }}</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -236,6 +258,29 @@
       <div class="modal-footer">
         <button type="button" data-dismiss="modal" class="btn btn-secondary">{{'Close' | translate }}</button>
         <button (click)="onDeletePaper(delPaper.id)" type="button" class="btn btn-primary">{{'Save' | translate }}</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal to view a Paper -->
+<div class="modal" id="viewPaperModal" tabindex="-1" aria-labelledby="deletePaperModal" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="viewModalLabel">{{'ViewData' | translate }}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+<!--        <p> {{delPaper.title}}</p>-->
+<!--        <p> {{delPaper.description}}</p>-->
+<!--        <p> {{curPaper.division}}</p>-->
+        <p>TEST {{curPaper?.description}}</p>
+        <p>TEST {{curPaper?.description}}</p>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" data-dismiss="modal" class="btn btn-secondary">{{'Close' | translate }}</button>
       </div>
     </div>
   </div>

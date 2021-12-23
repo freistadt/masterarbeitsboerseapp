@@ -25,6 +25,9 @@
   "withPartner": "Mit Partnerfirma",
   "Close": "Schließen",
   "Paid": "Bezahlt",
-  "NotPaid": "Nicht Bezahlt"
+  "NotPaid": "Nicht Bezahlt",
+  "ViewData": "Arbeit ansehen",
+  "startDate": "Start Datum",
+  "endDate": "End Datum"
 
 }

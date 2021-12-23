@@ -10,6 +10,9 @@ export interface  Paper {
   division: string;
   paid: boolean;
   withPartner: boolean;
+  startDate: Date;
+  endDate: Date;
+
 
 
   //test for internalizer

@@ -8,10 +8,10 @@ import {environment} from "../environments/environment";
   providedIn: 'root'
 })
 
-//Mirror of the backend functions to make them accesable in the frontend
+//Mirror of the backend functions to make them accessible in the frontend
 export class PaperService {
 
-  //change this URL if changed in the Backend + Change the import to enviroment.prod.ts when going on production
+  //change this URL if changed in the Backend + Change the import to environment.prod.ts when going on production
   private apiURL = environment.apiStandartUrl;
   //to allow http functions
   constructor(private http: HttpClient) { }
@@ -27,12 +27,13 @@ export class PaperService {
     return this.http.post<Paper>(`${this.apiURL}/paper/add`, paper)
   }
 
+
   public updatePapers(paper: Paper): Observable<Paper> {
     //the paper after the colong is the payload
     return this.http.put<Paper>(`${this.apiURL}/paper/update`, paper)
   }
 
-  //returns only the httpSttus after the functions is called in the backend
+  //returns only the httpStatus after the functions is called in the backend
   public deletePapers(paperId: number): Observable<void> {
     //payload is a single variable(number/id) so yoi can pass it with ${}
     return this.http.delete<void>(`${this.apiURL}/paper/delete/${paperId}`);
