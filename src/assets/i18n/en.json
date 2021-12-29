@@ -29,5 +29,6 @@
   "NotPaid": "Not Paid",
   "ViewData": "View thesis",
   "startDate": "Start date",
-  "endDate": "End date"
+  "endDate": "End date",
+  "detailInfo": "Show thesis Detail"
 }

@@ -10,8 +10,6 @@ import { FormBuilder, Validators, FormGroup } from "@angular/forms";
 import { formatDate } from '@angular/common';
 import {OidcSecurityService} from "angular-auth-oidc-client";
 
-
-
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -71,7 +69,7 @@ export class AppComponent implements  OnInit{
   isValidated = false;
 
   //injecting the PaperService
-  constructor(private paperService: PaperService, public translate: TranslateService, public oidcSecurityService: OidcSecurityService) {
+  constructor(private paperService: PaperService, public translate: TranslateService, /*public oidcSecurityService: OidcSecurityService*/) {
     translate.addLangs(['en', 'de']);
     translate.setDefaultLang('en');
   }
@@ -88,18 +86,18 @@ export class AppComponent implements  OnInit{
       });
     this.getPapers();
 
-    this.oidcSecurityService.checkAuth().subscribe(({ isAuthenticated, userData, accessToken, idToken }) => {
-      /*...*/
-    });
+    // this.oidcSecurityService.checkAuth().subscribe(({ isAuthenticated, userData, accessToken, idToken }) => {
+    //   /*...*/
+    // });
   }
 
-  login() {
-    this.oidcSecurityService.authorize();
-  }
-
-  logout() {
-    this.oidcSecurityService.logoff();
-  }
+  // login() {
+  //   this.oidcSecurityService.authorize();
+  // }
+  //
+  // logout() {
+  //   this.oidcSecurityService.logoff();
+  // }
 
   public getPapers(): void {
     //subscribe to get notfied
@@ -150,19 +148,6 @@ export class AppComponent implements  OnInit{
     this.onOpenModal("add");
   }
 
-  public viewPaper(paper: Paper) {
-    this.onOpenModal("view");
-    console.log(paper.title);
-    this.paperService.addPapers(paper).subscribe(
-      //when no error execute the response part when its an error execute the error part
-      (response: Paper) => {
-        this.getPapers()
-      },
-      (error: HttpErrorResponse) => {
-        alert(error.message);
-      }
-    );
-  }
 
   // Handling the different Modals. Argument Paper so you can have Modals and functions (add or delte or edit for the specifix paper
   //mode gets passed to the function know which one to open
@@ -187,6 +172,7 @@ export class AppComponent implements  OnInit{
     else if(mode === 'delete') {
       if (paper !== undefined) {
         this.delPaper = paper;
+        console.log("ggg");
       }
       button.setAttribute('data-target', '#deletePaperModal');
     }
@@ -194,11 +180,12 @@ export class AppComponent implements  OnInit{
       button.setAttribute('data-target', '#addPaperModal');
     }
     else if (mode === "view") {
-      button.setAttribute('data-target', '#viewPaperModal');
       if (paper !== undefined) {
         console.log("ggg");
-        this.curPaper = paper;
+        this.delPaper = paper;
       }
+      console.log("ggg22");
+      button.setAttribute('data-target', '#viewPaperModal');
 
     }
 
@@ -268,7 +255,15 @@ export class AppComponent implements  OnInit{
     this.translate.use(lang);
   }
 
+  public getDate(): string {
+    if (this.curPaper.startDate === null) {
+      console.log("testempty");
+      return "";
 
+    }
+    console.log(this.curPaper.startDate.getDate().toString());
+    return this.curPaper.startDate.getDate().toString();
+  }
   onSubmit() {
 
   }

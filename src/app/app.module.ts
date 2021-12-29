@@ -7,7 +7,7 @@ import {HttpClient, HttpClientModule} from "@angular/common/http";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { AuthConfigModule } from './auth/auth-config.module';
+//import { AuthConfigModule } from './auth/auth-config.module';
 //import {QuillModule} from "ngx-quill";
 
 
@@ -33,7 +33,7 @@ export function httpTranslateLoader(http: HttpClient) {
         deps: [HttpClient]
       }
     }),
-    AuthConfigModule,
+    // AuthConfigModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

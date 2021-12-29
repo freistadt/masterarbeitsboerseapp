@@ -1,0 +1,39 @@
+Hallo Herr Sitter,
+
+kein Problem. Ich sehe schon wo das Problem liegt.
+
+Als erstes Mal zum austesten bitte einmal den Account testen unter https://self.se.jku.at/auth/realms/se-mitarbeiter/account/
+Einfach einmal einloggen und E-Mail bestätigen bzw. ein neues Passwort setzen.
+
+Das Problem was du hier hast sind nicht die Cross Origins bei deinem lokalen Server.
+Diese sind dafür da um die Cors Header bei einfragen an deinen Server zu setzten.
+Sieher hier: https://www.npmjs.com/package/cors
+
+Was das debuggen mit Postman angeht, dass ist etwas undurchsichtig. Ich hab mal eine Postman-Collection angehängt zum testen. Bei der Post-Anfrage im Body Username und Passwort mit ihrem Username und Passwort ersetzen und dann senden. Sie sollten ein Access Token als Antwort bekommen. Dieses dann im zweiten Schritt beim Authorization Tab unter Access Token einfügen und senden drücken. Dann sollten sie ihre Userdaten abfragen können.
+
+Falls noch weitere Fragen auftreten einfach fragen.
+
+Mfg,
+
+Simon Vamberszky
+
+--------------------------------
+
+Frau Prof. Groher hat mich gebeten dir einen Zugang für unser Single Sign On zu geben.
+Der Single Sign On lässt sich mit Open ID Connect ansprechen. Sollte es für jedes Framework eine Library geben ansonsten funktioniert auch oauth2
+Hier die Zugangsdaten für den Client:
+
+client id: theses
+
+secret:8e9051b1-2879-41fb-963d-73f5430028be
+
+url: https://self.se.jku.at/auth/realms/se-mitarbeiter/protocol/openid-connect/
+
+Hier noch die Zugangsdaten für deinen Acount:
+
+Username. f.sitter
+Passwort: winse2021
+
+Mfg,
+
+Simon Vamberszky
