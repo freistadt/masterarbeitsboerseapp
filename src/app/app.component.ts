@@ -4,11 +4,12 @@ import {PaperService} from "./paper.service";
 import {Paper} from "../models/paper";
 import {NgForm} from "@angular/forms";
 import { TranslateService } from '@ngx-translate/core';
-import {Observable} from "rxjs";
+import {Observable, Subscription} from "rxjs";
 import {FormControl} from '@angular/forms';
 import { FormBuilder, Validators, FormGroup } from "@angular/forms";
 import { formatDate } from '@angular/common';
-import {OidcSecurityService} from "angular-auth-oidc-client";
+import {TypeEnum} from "../models/type-enum";
+import {AuthenticationService} from "../services/authentication.service";
 
 @Component({
   selector: 'app-root',
@@ -16,6 +17,14 @@ import {OidcSecurityService} from "angular-auth-oidc-client";
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements  OnInit{
+
+  subscriptions: Subscription[] = []
+
+  authForm = new FormGroup({
+    Username: new FormControl(),
+    Password: new FormControl()
+    }
+  )
 
   editForm = new FormGroup({
     id: new FormControl(),
@@ -29,7 +38,8 @@ export class AppComponent implements  OnInit{
     paperCode: new FormControl(),
     imageUrl: new FormControl(),
     startDate: new FormControl(),
-    endDate: new FormControl()
+    endDate: new FormControl(),
+    type: new FormControl()
   });
 
   addForm = new FormGroup({
@@ -37,14 +47,15 @@ export class AppComponent implements  OnInit{
     title: new FormControl(),
     description: new FormControl(),
     contact_person: new FormControl(),
-    institute: new FormControl(), // TODO Filter institutes when division form control changes
+    institute: new FormControl(),
     division: new FormControl(),
     paid: new FormControl(),
     withPartner: new FormControl(),
     paperCode: new FormControl(),
     imageUrl: new FormControl(),
     startDate: new FormControl(),
-    endDate: new FormControl()
+    endDate: new FormControl(),
+    type: new FormControl()
   });
 
 
@@ -59,6 +70,8 @@ export class AppComponent implements  OnInit{
 
   instituteDropDownValues: string[] = [];
 
+  typeDropDownValues: string[] = ["Bachelorarbeit", "Masterarbeit", "Doktorarbeit"];
+
   //class to save all paper form the backend
   papers: Paper[];
 
@@ -69,7 +82,7 @@ export class AppComponent implements  OnInit{
   isValidated = false;
 
   //injecting the PaperService
-  constructor(private paperService: PaperService, public translate: TranslateService, /*public oidcSecurityService: OidcSecurityService*/) {
+  constructor(private paperService: PaperService, public translate: TranslateService, public authService: AuthenticationService) {
     translate.addLangs(['en', 'de']);
     translate.setDefaultLang('en');
   }
@@ -78,26 +91,38 @@ export class AppComponent implements  OnInit{
 
   //override the given Constructor
   ngOnInit() {
-    this.editForm.get("division")?.valueChanges.subscribe(x => {
+    this.subscriptions.push(this.editForm.get("division")?.valueChanges.subscribe(x => {
         let values = this.instituteHashMap.get(x);
         if(values !== undefined) {
           this.instituteDropDownValues = values;
         }
-      });
-    this.getPapers();
+      }) as Subscription);
 
-    // this.oidcSecurityService.checkAuth().subscribe(({ isAuthenticated, userData, accessToken, idToken }) => {
-    //   /*...*/
-    // });
+    this.subscriptions.push(this.addForm.get("division")?.valueChanges.subscribe(x => {
+      let values = this.instituteHashMap.get(x);
+      if(values !== undefined) {
+        this.instituteDropDownValues = values;
+      }
+    }) as Subscription);
+    this.getPapers();
   }
 
-  // login() {
-  //   this.oidcSecurityService.authorize();
-  // }
-  //
-  // logout() {
-  //   this.oidcSecurityService.logoff();
-  // }
+  auth(){}
+
+  login() {
+    console.log("login");
+    this.authService.login().subscribe(res => console.log(res))
+
+  }
+
+  isLoggedIn():boolean {
+    return this.authService.isLoggedIn();
+  }
+
+  logout() {
+    console.log("logout");
+    this.authService.logout();
+  }
 
   public getPapers(): void {
     //subscribe to get notfied
@@ -137,6 +162,31 @@ export class AppComponent implements  OnInit{
     }
   }
 
+  public searchPaperDetail(key: string): void{
+    //container to store all Matches
+    const findings: Paper [] = [];
+
+    //loop over all papers an check if. -1 no match found in the indexOf function.
+    for (const paper_i of this.papers) {
+      if (paper_i.title.toLocaleLowerCase().indexOf(key.toLocaleLowerCase()) !== -1
+        || paper_i.contact_person.toLocaleLowerCase().indexOf(key.toLocaleLowerCase()) !== -1
+        || paper_i.description.toLocaleLowerCase().indexOf(key.toLocaleLowerCase()) !== -1
+        || paper_i.division.toLocaleLowerCase().indexOf(key.toLocaleLowerCase()) !== -1
+        || paper_i.institute.toLocaleLowerCase().indexOf(key.toLocaleLowerCase()) !== -1
+      )  {
+        findings.push(paper_i);
+      }
+    }
+    //only show the results
+    this.papers = findings;
+
+    //case nothing was found or the field is empty --> reset to show all Papers
+    if (findings.length === 0 || !key) {
+      this.getPapers();
+    }
+  }
+
+
   public editPaper(paper: Paper) {
     this.editForm.setValue(paper);
     this.onOpenModal("update");
@@ -172,7 +222,6 @@ export class AppComponent implements  OnInit{
     else if(mode === 'delete') {
       if (paper !== undefined) {
         this.delPaper = paper;
-        console.log("ggg");
       }
       button.setAttribute('data-target', '#deletePaperModal');
     }
@@ -181,14 +230,10 @@ export class AppComponent implements  OnInit{
     }
     else if (mode === "view") {
       if (paper !== undefined) {
-        console.log("ggg");
-        this.delPaper = paper;
+        this.curPaper = paper;
       }
-      console.log("ggg22");
       button.setAttribute('data-target', '#viewPaperModal');
-
     }
-
 
     // !-Operator ist used to surpress error since we know the specific Object exists
     container!.appendChild(button);
@@ -268,5 +313,7 @@ export class AppComponent implements  OnInit{
 
   }
 
-
+  ngOnDestroy() {
+    this.subscriptions.forEach((subscription) => subscription.unsubscribe())
+  }
 }

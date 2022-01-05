@@ -16,7 +16,7 @@
   "PaperTitle": "Titel of the thesis",
   "PaperDescription": "Decription of the thesis",
   "ContactPerson": "Contact person",
-  "Save": "Save Changes",
+  "Save": "Save changes",
   "ChangeDate": "Change data",
   "DeleteData": "Delte entry",
   "DeleteCheck": "Are you sure you want to delete the entry",
@@ -30,5 +30,7 @@
   "ViewData": "View thesis",
   "startDate": "Start date",
   "endDate": "End date",
-  "detailInfo": "Show thesis Detail"
+  "detailInfo": "Show thesis detail",
+  "detailSearch": "Detail Search",
+  "Type" : "Type of the Thesis"
 }

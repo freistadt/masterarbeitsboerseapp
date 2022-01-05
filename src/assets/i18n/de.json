@@ -29,6 +29,8 @@
   "ViewData": "Arbeit ansehen",
   "startDate": "Start Datum",
   "endDate": "End Datum",
-  "detailInfo": "Details anzeigen"
+  "detailInfo": "Details anzeigen",
+  "detailSearch": "Detail Suche",
+  "Type" : "Typ der Arbeit"
 
 }

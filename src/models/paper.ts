@@ -12,6 +12,7 @@ export interface  Paper {
   withPartner: boolean;
   startDate: Date;
   endDate: Date;
+  type: string;
 
 
 

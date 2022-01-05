@@ -6,8 +6,8 @@
   <div class="collapse navbar-collapse" id="navbarColor02">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <!--        call the function to open a Modal (app-componnent.ts)-->
-        <a class="nav-link" (click)="addPaper()">{{'AddPaper' | translate }}  <span class="sr-only">(current)</span></a>
+        <!--        call the function to open a Modal (app-componnent.ts) -- Only if User is LoggedIn-->
+        <a *ngIf="isLoggedIn()" class="nav-link" (click)="addPaper()">{{'AddPaper' | translate }}  <span class="sr-only">(current)</span></a>
       </li>
     </ul>
     <form class="form-inline my-2 my-lg-0">
@@ -26,9 +26,36 @@
         </option>
       </select>
     </span>
-<!--    <button (click)="login()"></button>-->
+    <button (click)="login()" type="button">Log In</button>
+    <button (click)="logout()" type="button">Log Out</button>
   </div>
 </nav>
+
+<!--User data needed atm but might be able to change later -->
+<form [formGroup]="authForm" (ngSubmit)="auth()">
+  <div class="form-group">
+    <label for="Username">Username</label>
+    <input type="text" formControlName="Username" name="Username" class="form-control" id="Username" placeholder="Username" required>
+  </div>
+  <div class="form-group">
+    <label for="Password">Username</label>
+    <input type="text" formControlName="Password" name="Password" class="form-control" id="Password" placeholder="Password" required>
+  </div>
+  <button [disabled]="authForm.invalid" type="submit" class="btn btn-primary">{{'Save' | translate }}</button>
+</form>
+
+
+
+Search detail
+<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseSearch" aria-expanded="false" aria-controls="collapseExample">
+  {{'detailSearch' | translate }}
+</button>
+<div class="collapse" id="collapseSearch">
+  <div>
+    Description:
+
+  </div>
+</div>
 
 
 <div class="container mt-5 mb-3" id="mainContainer">
@@ -40,11 +67,12 @@
             <!--            icon dokumentation: https://www.w3schools.com/css/css_icons.asp-->
             <div class="icon"> <i class="glyphicon glyphicon-envelope"></i> </div>
             <div class="ms-2 c-details">
-              <h6 class="mb-0">{{paper?.id}}</h6> <span>{{paper?.contact_person}}</span>
+              <h6 class="mb-0">{{paper?.type}}</h6> <span>{{paper?.contact_person}}</span>
             </div>
           </div>
           <div class="badge" *ngIf="paper?.paid; else elseBlock">{{'Paid' | translate }}</div>
           <ng-template  #elseBlock> <div class="badge"> {{'NotPaid' | translate }} </div> </ng-template>
+
         </div>
         <div class="mt-5">
           <h3 class="heading">{{paper?.title}}</h3>
@@ -64,8 +92,7 @@
           <h5 class="heading">Division: {{paper?.division}}</h5>
         </div>
         <div class="mt-5">
-          <h5 class="heading">Start date: {{paper?.startDate}}</h5>
-<!--          <h5 class="heading">Start date: {{getDate()}}</h5>-->
+          <h5 class="heading">Start date: {{paper?.startDate | date:'MM/dd/yyyy'}}</h5>
         </div>
         <div class="mt-5">
           <div *ngIf="paper?.paid; else elseBlock">{{'Paid' | translate }}</div>
@@ -73,6 +100,7 @@
         </div>
         <div class="float-right btn-group btn-group-sm">
           <a (click)="onOpenModal('view', paper)" class="btn btn-primary tooltips" data-placement="top" data-original-title="View"><i class="fa fa-info"></i> </a>
+
           <a (click)="editPaper(paper)" class="btn btn-primary tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-pencil"></i> </a>
           <a (click)="onOpenModal('delete', paper)" class="btn btn-secondary tooltips" data-placement="top" data-original-title="Delete"><i class="fa fa-times"></i></a>
         </div>
@@ -119,7 +147,7 @@
           </div>
           <div class="form-group">
             <label for="division">{{'Division' | translate }}</label>
-            <select class="form-control" formControlName="division">
+            <select class="form-control" formControlName="division" id="division">
               <option *ngFor="let value of divisionDropdownValues"
                       [value]="value">
                 {{value}}
@@ -128,8 +156,18 @@
           </div>
           <div class="form-group">
             <label for="institute">{{'Institute' | translate }}</label>
-            <select class="form-control" formControlName="institute">
+            <select class="form-control" formControlName="institute" id="institute">
               <option *ngFor="let value of instituteDropDownValues"
+                      [value]="value">
+                {{value}}
+              </option>
+            </select>
+          </div>
+<!--          TODO ausbaustufe: https://stackblitz.com/edit/angular-gujg2e-->
+          <div class="form-group">
+            <label for="type">{{'Type' | translate }}</label>
+            <select class="form-control" formControlName="type" id="type">
+              <option *ngFor="let value of typeDropDownValues"
                       [value]="value">
                 {{value}}
               </option>
@@ -217,6 +255,15 @@
               </option>
             </select>
           </div>
+          <div class="form-group">
+            <label for="type">{{'Type' | translate }}</label>
+            <select class="form-control" formControlName="type" id="typeEdited">
+              <option *ngFor="let value of typeDropDownValues"
+                      [value]="value">
+                {{value}}
+              </option>
+            </select>
+          </div>
           <div>
             <input formControlName="paid" type="checkbox" id="isPaidEdited" name="paid">
             <label for="paid">{{'paid' | translate }}</label>
@@ -273,17 +320,30 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <!--        <p> {{delPaper.title}}</p>-->
-        <!--        <p> {{delPaper.description}}</p>-->
-        <!--        <p> {{curPaper.division}}</p>-->
-
-        <p>TEST </p>
-
-
+        <p> {{'PaperTitle' | translate }}:</p>
+        <p> {{curPaper?.title}}</p>
+        <div>
+          <p> {{'PaperDescription' | translate }}:</p>
+          <h5 class="heading" [innerHTML]=curPaper?.description>Description</h5>
+        </div>
+        <div class="mt-5">
+          <h5 class="heading">Division: {{curPaper?.division}}</h5>
+        </div>
+        <div class="mt-5">
+          <h5 class="heading">{{'startDate' | translate }}: {{curPaper?.startDate}}</h5>
+        </div>
+        <div class="mt-5">
+          <h5 class="heading">{{'endDate' | translate }}: {{curPaper?.endDate}}</h5>
+        </div>
+        <div class="mt-5">
+          <div *ngIf="curPaper?.paid; else elseBlock">{{'Paid' | translate }}</div>
+          <ng-template #elseBlock>{{'NotPaid' | translate }}</ng-template>
+        </div>
       </div>
       <div class="modal-footer">
         <button type="button" data-dismiss="modal" class="btn btn-secondary">{{'Close' | translate }}</button>
       </div>
     </div>
   </div>
+</div>
 </div>
