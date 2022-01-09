@@ -10,6 +10,7 @@ import { FormBuilder, Validators, FormGroup } from "@angular/forms";
 import { formatDate } from '@angular/common';
 import {TypeEnum} from "../models/type-enum";
 import {AuthenticationService} from "../services/authentication.service";
+import {TranslateHttpLoader} from "@ngx-translate/http-loader";
 
 @Component({
   selector: 'app-root',
@@ -316,4 +317,9 @@ export class AppComponent implements  OnInit{
   ngOnDestroy() {
     this.subscriptions.forEach((subscription) => subscription.unsubscribe())
   }
+
+}
+
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http, "assets/i18n/", ".json");
 }

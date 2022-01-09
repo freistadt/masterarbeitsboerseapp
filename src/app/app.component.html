@@ -26,8 +26,8 @@
         </option>
       </select>
     </span>
-    <button (click)="login()" type="button">Log In</button>
-    <button (click)="logout()" type="button">Log Out</button>
+    <button *ngIf="!isLoggedIn()" class="btn btn-primary" (click)="login()" type="button">Log In</button>
+    <button *ngIf="isLoggedIn()" class="btn btn-primary" (click)="logout()" type="button">Log Out</button>
   </div>
 </nav>
 
@@ -58,7 +58,7 @@ Search detail
 </div>
 
 
-<div class="container mt-5 mb-3" id="mainContainer">
+<div class="container mt-1 mb-3" id="mainContainer">
   <div class="row">
     <div *ngFor="let paper of papers" class="col-md-4">
       <div class="card p-3 mb-2">
@@ -72,39 +72,26 @@ Search detail
           </div>
           <div class="badge" *ngIf="paper?.paid; else elseBlock">{{'Paid' | translate }}</div>
           <ng-template  #elseBlock> <div class="badge"> {{'NotPaid' | translate }} </div> </ng-template>
-
         </div>
-        <div class="mt-5">
+        <div class="mt-1">
           <h3 class="heading">{{paper?.title}}</h3>
         </div>
-        <div class="mt-5">
+        <div class="mt-1">
           <h5 class="heading">Institute: {{paper?.institute}}</h5>
         </div>
-        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-          {{'detailInfo' | translate }}
-        </button>
-        <div class="collapse" id="collapseExample">
           <div class="card card-body">
-            Description:
-            <h5 class="heading" [innerHTML]=paper?.description>Description</h5>
-          </div>
-        <div class="mt-5">
+        <div class="mt-1">
           <h5 class="heading">Division: {{paper?.division}}</h5>
         </div>
-        <div class="mt-5">
+        <div class="mt-1">
           <h5 class="heading">Start date: {{paper?.startDate | date:'MM/dd/yyyy'}}</h5>
         </div>
-        <div class="mt-5">
-          <div *ngIf="paper?.paid; else elseBlock">{{'Paid' | translate }}</div>
-          <ng-template #elseBlock>{{'NotPaid' | translate }}</ng-template>
-        </div>
         <div class="float-right btn-group btn-group-sm">
-          <a (click)="onOpenModal('view', paper)" class="btn btn-primary tooltips" data-placement="top" data-original-title="View"><i class="fa fa-info"></i> </a>
+          <a  (click)="onOpenModal('view', paper)" class="btn btn-primary tooltips" data-placement="top" data-original-title="View"><i class="fa fa-info"></i> </a>
 
-          <a (click)="editPaper(paper)" class="btn btn-primary tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-pencil"></i> </a>
-          <a (click)="onOpenModal('delete', paper)" class="btn btn-secondary tooltips" data-placement="top" data-original-title="Delete"><i class="fa fa-times"></i></a>
+          <a *ngIf="isLoggedIn()" (click)="editPaper(paper)" class="btn btn-primary tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-pencil"></i> </a>
+          <a *ngIf="isLoggedIn()" (click)="onOpenModal('delete', paper)" class="btn btn-secondary tooltips" data-placement="top" data-original-title="Delete"><i class="fa fa-times"></i></a>
         </div>
-      </div>
     </div>
   </div>
 </div>
@@ -346,4 +333,4 @@ Search detail
     </div>
   </div>
 </div>
-</div>
+
