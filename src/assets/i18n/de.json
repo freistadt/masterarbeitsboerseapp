@@ -21,16 +21,16 @@
   "DeleteCheck": "Möchten Sie wirklich den Eintrag löschen",
   "Division": "Division",
   "Institute": "Institute",
-  "isPaid": "mit Bezahlung",
+  "isPaid": "Mit Bezahlung",
   "withPartner": "Mit Partnerfirma",
   "Close": "Schließen",
   "Paid": "Bezahlt",
   "NotPaid": "Nicht Bezahlt",
   "ViewData": "Arbeit ansehen",
-  "startDate": "Start Datum",
-  "endDate": "End Datum",
+  "startDate": " Start Datum",
+  "endDate": " End Datum",
   "detailInfo": "Details anzeigen",
   "detailSearch": "Detail Suche",
-  "Type" : "Typ der Arbeit"
-
+  "Type" : "Typ der Arbeit",
+  "withoutPartner": "Ohne Partnerfirma"
 }

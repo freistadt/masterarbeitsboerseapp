@@ -7,15 +7,15 @@
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
         <!--        call the function to open a Modal (app-componnent.ts) -- Only if User is LoggedIn-->
-        <a *ngIf="isLoggedIn()" class="nav-link" (click)="addPaper()">{{'AddPaper' | translate }}  <span class="sr-only">(current)</span></a>
+        <a *ngIf="!isLoggedIn()" class="nav-link" (click)="addPaper()">{{'AddPaper' | translate }}  <span class="sr-only">(current)</span></a>
       </li>
     </ul>
-    <form class="form-inline my-2 my-lg-0">
-      <!--      #key  Assigns a local reference name-->
-      <!--      ngModelChange  whenever something is updated in the field-->
-      <input type="search" (ngModelChange) = "searchPaper(key.value)" #key="ngModel" ngModel
-             name="key" id="searchName" class="form-control mr-sm-2" placeholder="{{'SearchPlaceholder' | translate }}" required>
-    </form>
+<!--    <form class="form-inline my-2 my-lg-0">-->
+<!--      &lt;!&ndash;      #key  Assigns a local reference name&ndash;&gt;-->
+<!--      &lt;!&ndash;      ngModelChange  whenever something is updated in the field&ndash;&gt;-->
+<!--      <input type="search" (ngModelChange) = "searchPaper(key.value)" #key="ngModel" ngModel-->
+<!--             name="key" id="searchName" class="form-control mr-sm-2" placeholder="{{'SearchPlaceholder' | translate }}" required>-->
+<!--    </form>-->
   </div>
   <div class="container">
     <span class="form-inline">
@@ -32,18 +32,15 @@
 </nav>
 
 <!--User data needed atm but might be able to change later -->
-<form [formGroup]="authForm" (ngSubmit)="auth()">
-  <div class="form-group">
-    <label for="Username">Username</label>
-    <input type="text" formControlName="Username" name="Username" class="form-control" id="Username" placeholder="Username" required>
-  </div>
-  <div class="form-group">
-    <label for="Password">Username</label>
-    <input type="text" formControlName="Password" name="Password" class="form-control" id="Password" placeholder="Password" required>
-  </div>
-  <button [disabled]="authForm.invalid" type="submit" class="btn btn-primary">{{'Save' | translate }}</button>
-</form>
-
+<!--<form [formGroup]="authForm" (ngSubmit)="auth()">-->
+<!--  <div class="form-group">-->
+<!--    <label for="Username">Username</label>-->
+<!--    <input type="text" formControlName="Username" name="Username" class="form-control" id="Username" placeholder="Username" required>-->
+<!--    <label for="Password">Password</label>-->
+<!--    <input type="text" formControlName="Password" name="Password" class="form-control" id="Password" placeholder="Password" required>-->
+<!--  </div>-->
+<!--  <button [disabled]="authForm.invalid" type="submit" class="btn btn-primary">Log in</button>-->
+<!--</form>-->
 
 
 Search detail
@@ -52,8 +49,36 @@ Search detail
 </button>
 <div class="collapse" id="collapseSearch">
   <div>
-    Description:
 
+    Description:
+    <form class="form-inline my-2 my-lg-0" [formGroup]="searchForm">
+
+      Value: {{searchForm.value | json}}
+
+      <mat-form-field>
+        <input matInput placeholder="title" formControlName="title">
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput placeholder="your description" formControlName="description">
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-select  formControlName="institute" placeholder="Wirtschaftsinformatik">
+
+        </mat-select>
+      </mat-form-field>
+
+
+<!--      <input type="search" (ngModelChange) = "searchPaperDetail(key.value)" #key="ngModel" ngModel-->
+<!--             name="key" id="searchName2" class="form-control mr-sm-2" placeholder="{{'SearchPlaceholder' | translate }}" required>-->
+
+<!--      <div>-->
+<!--        <input type="checkbox" formControlName="paid" id="isPaidSearch" name="isPaid" (change)="onchange()" ng-change="checkAll($event.target.checked)">-->
+<!--        <label for="isPaid">{{'isPaid' | translate }}</label>-->
+<!--      </div>-->
+<!--      <button (click)="searchPaperDetail(key.value)" type="submit" class="btn btn-primary"> Search</button>-->
+    </form>
   </div>
 </div>
 
@@ -76,10 +101,11 @@ Search detail
         <div class="mt-1">
           <h3 class="heading">{{paper?.title}}</h3>
         </div>
+        <div class="card card-body">
         <div class="mt-1">
           <h5 class="heading">Institute: {{paper?.institute}}</h5>
         </div>
-          <div class="card card-body">
+
         <div class="mt-1">
           <h5 class="heading">Division: {{paper?.division}}</h5>
         </div>
@@ -89,8 +115,8 @@ Search detail
         <div class="float-right btn-group btn-group-sm">
           <a  (click)="onOpenModal('view', paper)" class="btn btn-primary tooltips" data-placement="top" data-original-title="View"><i class="fa fa-info"></i> </a>
 
-          <a *ngIf="isLoggedIn()" (click)="editPaper(paper)" class="btn btn-primary tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-pencil"></i> </a>
-          <a *ngIf="isLoggedIn()" (click)="onOpenModal('delete', paper)" class="btn btn-secondary tooltips" data-placement="top" data-original-title="Delete"><i class="fa fa-times"></i></a>
+          <a *ngIf="!isLoggedIn()" (click)="editPaper(paper)" class="btn btn-primary tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-pencil"></i> </a>
+          <a *ngIf="!isLoggedIn()" (click)="onOpenModal('delete', paper)" class="btn btn-secondary tooltips" data-placement="top" data-original-title="Delete"><i class="fa fa-times"></i></a>
         </div>
     </div>
   </div>
@@ -307,24 +333,29 @@ Search detail
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <p> {{'PaperTitle' | translate }}:</p>
-        <p> {{curPaper?.title}}</p>
+        <p> <b> {{'PaperTitle' | translate }}: </b> {{curPaper?.title}}</p>
         <div>
-          <p> {{'PaperDescription' | translate }}:</p>
+          <p> <b> {{'PaperDescription' | translate }}: </b> </p>
           <h5 class="heading" [innerHTML]=curPaper?.description>Description</h5>
         </div>
+        ------------------------------------------------------------------------
         <div class="mt-5">
-          <h5 class="heading">Division: {{curPaper?.division}}</h5>
+          <h5 class="heading"> <b>Division: </b> {{curPaper?.division}}</h5>
         </div>
         <div class="mt-5">
-          <h5 class="heading">{{'startDate' | translate }}: {{curPaper?.startDate}}</h5>
+          <h5 class="heading"> <b>Institute: </b> {{curPaper?.institute}}</h5>
         </div>
         <div class="mt-5">
-          <h5 class="heading">{{'endDate' | translate }}: {{curPaper?.endDate}}</h5>
+          <h5 class="heading">{{'startDate' | translate }}: {{curPaper?.startDate | date:'MM/dd/yyyy'}}</h5>
         </div>
-        <div class="mt-5">
+          ------------------------------------------------------------------------
+        <div class="mt-3">
           <div *ngIf="curPaper?.paid; else elseBlock">{{'Paid' | translate }}</div>
           <ng-template #elseBlock>{{'NotPaid' | translate }}</ng-template>
+        </div>
+        <div class="mt-3">
+          <div *ngIf="curPaper?.withPartner; else elseBlock">{{'withPartner' | translate }}</div>
+          <ng-template #elseBlock>{{'withoutPartner' | translate }}</ng-template>
         </div>
       </div>
       <div class="modal-footer">

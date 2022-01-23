@@ -59,6 +59,19 @@ export class AppComponent implements  OnInit{
     type: new FormControl()
   });
 
+  searchForm = new FormGroup({
+    title: new FormControl(),
+    description: new FormControl(),
+    //contact_person: new FormControl(),
+    institute: new FormControl(),
+    // division: new FormControl(),
+    // paid: new FormControl(),
+    // withPartner: new FormControl(),
+    // startDate: new FormControl(),
+    // endDate: new FormControl(),
+    // type: new FormControl()
+  });
+
 
   //for the Dropdown in the add and change modal
   divisionDropdownValues = ["Finance & Accounting", "Management & Marketing", "Supply Chain & Information Management", "Wirtschaftsinformatik"]
@@ -85,7 +98,7 @@ export class AppComponent implements  OnInit{
   //injecting the PaperService
   constructor(private paperService: PaperService, public translate: TranslateService, public authService: AuthenticationService) {
     translate.addLangs(['en', 'de']);
-    translate.setDefaultLang('en');
+    translate.setDefaultLang('de');
   }
 
   lang: string;
@@ -106,6 +119,8 @@ export class AppComponent implements  OnInit{
       }
     }) as Subscription);
     this.getPapers();
+
+    this.searchForm.valueChanges.subscribe(console.log)
   }
 
   auth(){}
@@ -187,14 +202,12 @@ export class AppComponent implements  OnInit{
     }
   }
 
-
   public editPaper(paper: Paper) {
     this.editForm.setValue(paper);
     this.onOpenModal("update");
   }
 
   public addPaper() {
-    // TODO Reset not working
     this.addForm.reset();
     this.onOpenModal("add");
   }
@@ -303,23 +316,23 @@ export class AppComponent implements  OnInit{
 
   public getDate(): string {
     if (this.curPaper.startDate === null) {
-      console.log("testempty");
       return "";
-
     }
     console.log(this.curPaper.startDate.getDate().toString());
     return this.curPaper.startDate.getDate().toString();
   }
-  onSubmit() {
 
-  }
-
+  //for forms with angular TODO
   ngOnDestroy() {
     this.subscriptions.forEach((subscription) => subscription.unsubscribe())
   }
 
+
 }
 
+//For the translation in aws
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, "assets/i18n/", ".json");
 }
+
+
