@@ -22,8 +22,8 @@ export class AppComponent implements  OnInit{
   subscriptions: Subscription[] = []
 
   authForm = new FormGroup({
-    Username: new FormControl(),
-    Password: new FormControl()
+    Username: new FormControl()
+    //Password: new FormControl()
     }
   )
 
@@ -40,7 +40,12 @@ export class AppComponent implements  OnInit{
     imageUrl: new FormControl(),
     startDate: new FormControl(),
     endDate: new FormControl(),
-    type: new FormControl()
+    type: new FormControl(),
+    subbmitedBy: new FormControl(),
+    contactMail: new FormControl(),
+    contactInfo: new FormControl(),
+    paymentType: new FormControl(),
+    paymentAmount: new FormControl()
   });
 
   addForm = new FormGroup({
@@ -56,21 +61,27 @@ export class AppComponent implements  OnInit{
     imageUrl: new FormControl(),
     startDate: new FormControl(),
     endDate: new FormControl(),
-    type: new FormControl()
+    type: new FormControl(),
+    contactMail: new FormControl(),
+    contactInfo: new FormControl(),
+    paymentType: new FormControl(),
+    paymentAmount: new FormControl()
   });
 
-  searchForm = new FormGroup({
+  searchForm: FormGroup;
+
+/*  searchForm = new FormGroup({
     title: new FormControl(),
     description: new FormControl(),
-    //contact_person: new FormControl(),
+    contact_person: new FormControl(),
     institute: new FormControl(),
-    // division: new FormControl(),
-    // paid: new FormControl(),
-    // withPartner: new FormControl(),
+     division: new FormControl(),
+    paid: new FormControl(),
+    withPartner: new FormControl(),
     // startDate: new FormControl(),
     // endDate: new FormControl(),
-    // type: new FormControl()
-  });
+    type: new FormControl()
+  });*/
 
 
   //for the Dropdown in the add and change modal
@@ -84,7 +95,9 @@ export class AppComponent implements  OnInit{
 
   instituteDropDownValues: string[] = [];
 
-  typeDropDownValues: string[] = ["Bachelorarbeit", "Masterarbeit", "Doktorarbeit"];
+  typeDropDownValues: string[] = ["Bachelorarbeit", "Masterarbeit", "Doktorarbeit"]
+
+  paymentDropDownValues: string[] = ["Monthly", "OneTime"];
 
   //class to save all paper form the backend
   papers: Paper[];
@@ -96,15 +109,31 @@ export class AppComponent implements  OnInit{
   isValidated = false;
 
   //injecting the PaperService
-  constructor(private paperService: PaperService, public translate: TranslateService, public authService: AuthenticationService) {
-    translate.addLangs(['en', 'de']);
+  constructor(private paperService: PaperService, public translate: TranslateService, public authService: AuthenticationService, public fb: FormBuilder) {
+    translate.addLangs(['de', 'en']);
     translate.setDefaultLang('de');
   }
 
   lang: string;
 
+  curUser: string;
+
   //override the given Constructor
   ngOnInit() {
+
+    this.searchForm = this.fb.group({
+      title: [''],
+      description: [''],
+      contact_person: [''],
+      institute: [''],
+      division: [''],
+      paid: [''],
+      withPartner: [''],
+      // startDate: new FormControl(),
+      // endDate: new FormControl(),
+      type:  ['']
+    })
+
     this.subscriptions.push(this.editForm.get("division")?.valueChanges.subscribe(x => {
         let values = this.instituteHashMap.get(x);
         if(values !== undefined) {
@@ -118,9 +147,18 @@ export class AppComponent implements  OnInit{
         this.instituteDropDownValues = values;
       }
     }) as Subscription);
+
+    this.subscriptions.push(this.searchForm.get("division")?.valueChanges.subscribe(x => {
+      let values = this.instituteHashMap.get(x);
+      if(values !== undefined) {
+        this.instituteDropDownValues = values;
+      }
+    }) as Subscription);
+
     this.getPapers();
 
     this.searchForm.valueChanges.subscribe(console.log)
+    this.authForm.valueChanges.subscribe(console.log)
   }
 
   auth(){}
@@ -128,7 +166,6 @@ export class AppComponent implements  OnInit{
   login() {
     console.log("login");
     this.authService.login().subscribe(res => console.log(res))
-
   }
 
   isLoggedIn():boolean {
@@ -258,9 +295,12 @@ export class AppComponent implements  OnInit{
   public onNewPaper(): void {
     if (this.addForm.valid) {
       let paper = this.addForm.value;
+      paper.subbmitedBy = this.curUser;
       //close the Modal automatically after the User clicks submit
       const closeButton = document.getElementById('close-add-paper-form');
       closeButton!.click();
+      console.log(this.addForm.value.paymentType);
+      console.log(this.addForm.value.paymentAmount);
       //subscribe --> waiting for this to happen (Listener)
       this.paperService.addPapers(paper).subscribe(
         //when no error execute the response part when its an error execute the error part
@@ -307,19 +347,10 @@ export class AppComponent implements  OnInit{
     );
   }
 
-
   //changing between the languages (de|en)
   switchLang(lang: string) {
     console.log(lang);
     this.translate.use(lang);
-  }
-
-  public getDate(): string {
-    if (this.curPaper.startDate === null) {
-      return "";
-    }
-    console.log(this.curPaper.startDate.getDate().toString());
-    return this.curPaper.startDate.getDate().toString();
   }
 
   //for forms with angular TODO
@@ -328,11 +359,49 @@ export class AppComponent implements  OnInit{
   }
 
 
+  dummyLogIn() {
+    console.log(this.authForm.get('Username')?.value);
+    this.curUser = this.authForm.get('Username')?.value;
+    console.log("cur User:" + this.curUser);
+  }
+
+  isSameUser(addedBy: string): boolean {
+    // console.log("TEST isSameUSER()");
+    // console.log(this.authForm.get('Username')?.value);
+    // console.log("cur User:" + this.curUser);
+    if (this.curUser == addedBy) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+
+  writeTest() {
+    console.log("working");
+  }
+
+  getDate(): Date {
+    return new Date();
+  }
+
+//   public getDate(): string {
+//     if (this.curPaper.startDate === null) {
+//       console.log(this.curPaper.startDate.getDate().toString());
+//       return "";
+//     }
+//     console.log(this.curPaper.startDate.getDate().toString());
+//     return this.curPaper.startDate.getDate().toString();
+//   }
+
+
 }
 
 //For the translation in aws
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, "assets/i18n/", ".json");
 }
+
+
 
 

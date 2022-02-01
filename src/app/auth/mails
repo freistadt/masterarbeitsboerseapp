@@ -1,5 +1,21 @@
 Hallo Herr Sitter,
 
+1. Das ist generell möglich aber kompliziert zum umsetzen. Hier müsste man die Url händisch zusammenbauen. Ich würde hier die Library verwenden.
+ Die Rest Schnittstellen waren nur zum testen gedacht.
+
+2. Ja. Ich hab eigentlich die localhost Url gewhitelistet, da ich davon ausgegangen bin dass sie die Applikation lokal austesten.
+ Bei ihrer Server Url wird es aber noch zu einem Problem kommen da dieser kein SSL kann. Bei externen Urls verlangt der Single Sign On aber SSL.
+
+Es gibt aber bereits bei unserem Institut eine Url für das Projekt: https://theses.se.jku.at Ich kann mit unserem Reverse Proxy auf deine Amazon Aws Instanz weiterleiten lassen.
+Dann müssten sie nur noch die url ändern und dann sollte das ganze funktionieren.
+
+Mfg,
+
+Simon Vamberszky
+
+-------------------
+Hallo Herr Sitter,
+
 kein Problem. Ich sehe schon wo das Problem liegt.
 
 Als erstes Mal zum austesten bitte einmal den Account testen unter https://self.se.jku.at/auth/realms/se-mitarbeiter/account/

@@ -12,12 +12,9 @@ import { OAuthModule } from 'angular-oauth2-oidc';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatSelectModule} from "@angular/material/select";
+import {MatCheckboxModule} from "@angular/material/checkbox";
+import {MatInputModule} from "@angular/material/input";
 
-// import {MatInputModule} from '@angular/material/input';
-// import {MatButtonModule} from "@angular/material/button";
-// import {MatSelectModule} from "@angular/material/select";
-// import {MatCheckboxModule} from "@angular/material/checkbox";
-// import {MatChipsModule} from "@angular/material/chips";
 
 // AOT compilation support
 export function httpTranslateLoader(http: HttpClient) {
@@ -35,11 +32,6 @@ export function httpTranslateLoader(http: HttpClient) {
     EditorModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
-    // MatInputModule,
-    // MatButtonModule,
-    // MatSelectModule,
-    // MatCheckboxModule,
-    // MatChipsModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -49,7 +41,9 @@ export function httpTranslateLoader(http: HttpClient) {
     }),
     OAuthModule.forRoot(),
     MatFormFieldModule,
-    MatSelectModule
+    MatSelectModule,
+    MatCheckboxModule,
+    MatInputModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -26,7 +26,9 @@ export class AuthenticationService {
       .set('password', authData.password)
       .set('client_id', authData.client_id)
       .set('client_secret', authData.client_secret)
-      .set('grant_type', authData.grant_type);*/
+      .set('grant_type', authData.grant_type);
+
+  */
 
     const HTTP_OPTIONS = {
       headers: new HttpHeaders({

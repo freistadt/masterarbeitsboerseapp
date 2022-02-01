@@ -9,7 +9,7 @@
   "TermsConditions": "I agree to terms and conditions.",
   "Submit": "Submit",
   "TranslationTest": "Translation Text",
-  "Title": "master thesis market",
+  "Title": "Thesis market",
   "AddPaper": "Add new master thesis",
   "SearchPlaceholder": "Search for a paper",
   "AddTitle": "New thesis",
@@ -19,7 +19,8 @@
   "Save": "Save changes",
   "ChangeDate": "Change data",
   "DeleteData": "Delete entry",
-  "DeleteCheck": "Are you sure you want to delete the entry",
+  "DeleteCheck": "Are you sure you want to delete the entry: ",
+  "DeleteCheck2": "",
   "Division": "Division",
   "Institute": "Institute",
   "isPaid": " Includes payment",
@@ -33,5 +34,12 @@
   "detailInfo": "Show thesis detail",
   "detailSearch": "Detail Search",
   "Type" : "Type of the Thesis",
-  "withoutPartner": "Without a partner"
+  "withoutPartner": "Without a partner",
+  "Login": "Log In",
+  "logout": "Log out",
+  "aviableNow": "From now on",
+  "contactMail": "Mail Address",
+  "contactInfo": "Link to the Informationsite",
+  "paymentType": "Type of payment",
+  "paymentAmount": "Amount of payment"
 }

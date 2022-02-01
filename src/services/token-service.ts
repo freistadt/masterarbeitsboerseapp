@@ -6,7 +6,7 @@ const REFRESH_TOKEN = 'refresh_token';
 @Injectable({
   providedIn: 'root'
 })
-//Mirror of the backend functions to make them accessible in the frontend
+
 export class TokenService {
 
   getToken(): string | null {

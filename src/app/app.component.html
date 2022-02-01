@@ -7,15 +7,15 @@
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
         <!--        call the function to open a Modal (app-componnent.ts) -- Only if User is LoggedIn-->
-        <a *ngIf="!isLoggedIn()" class="nav-link" (click)="addPaper()">{{'AddPaper' | translate }}  <span class="sr-only">(current)</span></a>
+        <button *ngIf="!isLoggedIn()" class="btn btn-primary mr-3" (click)="addPaper()" type="button"> {{'AddPaper' | translate }}</button>
       </li>
     </ul>
-<!--    <form class="form-inline my-2 my-lg-0">-->
-<!--      &lt;!&ndash;      #key  Assigns a local reference name&ndash;&gt;-->
-<!--      &lt;!&ndash;      ngModelChange  whenever something is updated in the field&ndash;&gt;-->
-<!--      <input type="search" (ngModelChange) = "searchPaper(key.value)" #key="ngModel" ngModel-->
-<!--             name="key" id="searchName" class="form-control mr-sm-2" placeholder="{{'SearchPlaceholder' | translate }}" required>-->
-<!--    </form>-->
+    <form class="form-inline my-2 my-lg-0">
+      <!--      #key  Assigns a local reference name-->
+      <!--      ngModelChange  whenever something is updated in the field-->
+      <input type="search" (ngModelChange) = "searchPaper(key.value)" #key="ngModel" ngModel
+             name="key" id="searchName" class="form-control mr-sm-2" placeholder="{{'SearchPlaceholder' | translate }}" required>
+    </form>
   </div>
   <div class="container">
     <span class="form-inline">
@@ -26,63 +26,82 @@
         </option>
       </select>
     </span>
-    <button *ngIf="!isLoggedIn()" class="btn btn-primary" (click)="login()" type="button">Log In</button>
-    <button *ngIf="isLoggedIn()" class="btn btn-primary" (click)="logout()" type="button">Log Out</button>
+    <button *ngIf="!isLoggedIn()" class="btn btn-primary" (click)="login()" type="button">{{'Login' | translate }}</button>
+    <button *ngIf="isLoggedIn()" class="btn btn-primary" (click)="logout()" type="button">{{'Logout' | translate }}</button>
   </div>
 </nav>
 
 <!--User data needed atm but might be able to change later -->
-<!--<form [formGroup]="authForm" (ngSubmit)="auth()">-->
-<!--  <div class="form-group">-->
-<!--    <label for="Username">Username</label>-->
-<!--    <input type="text" formControlName="Username" name="Username" class="form-control" id="Username" placeholder="Username" required>-->
+<form [formGroup]="authForm" (ngSubmit)="auth()" class="form-inline">
+
+  <div class="form-group w-25" mb-2>
+    <label for="Username">Username</label>
+    <input type="text" formControlName="Username" name="Username" class="form-control" id="Username" placeholder="Username" required>
 <!--    <label for="Password">Password</label>-->
 <!--    <input type="text" formControlName="Password" name="Password" class="form-control" id="Password" placeholder="Password" required>-->
-<!--  </div>-->
-<!--  <button [disabled]="authForm.invalid" type="submit" class="btn btn-primary">Log in</button>-->
-<!--</form>-->
+  </div>
+  <button (click)="dummyLogIn()" authForm.invalid type="submit" class="btn btn-primary ">Log in</button>
+</form>
 
+<button (click)="getDate()" authForm.invalid type="submit" class="btn btn-primary ">TEST DATE in</button>
+-------------------------------------------------------------------------------------------------------------------------
 
+<a href="mailto:chriscoyier@gmail.com">chriscoyier@gmail.com</a>
 Search detail
 <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseSearch" aria-expanded="false" aria-controls="collapseExample">
   {{'detailSearch' | translate }}
 </button>
 <div class="collapse" id="collapseSearch">
   <div>
+    <form [formGroup]="searchForm">
 
-    Description:
-    <form class="form-inline my-2 my-lg-0" [formGroup]="searchForm">
-
+      <div>
       Value: {{searchForm.value | json}}
-
-      <mat-form-field>
+      </div>
+      <div>
         <input matInput placeholder="title" formControlName="title">
-      </mat-form-field>
+      </div>
 
-      <mat-form-field>
-        <input matInput placeholder="your description" formControlName="description">
-      </mat-form-field>
-
-      <mat-form-field>
-        <mat-select  formControlName="institute" placeholder="Wirtschaftsinformatik">
-
-        </mat-select>
-      </mat-form-field>
+        <input placeholder="your description" formControlName="description">
 
 
-<!--      <input type="search" (ngModelChange) = "searchPaperDetail(key.value)" #key="ngModel" ngModel-->
-<!--             name="key" id="searchName2" class="form-control mr-sm-2" placeholder="{{'SearchPlaceholder' | translate }}" required>-->
 
-<!--      <div>-->
-<!--        <input type="checkbox" formControlName="paid" id="isPaidSearch" name="isPaid" (change)="onchange()" ng-change="checkAll($event.target.checked)">-->
-<!--        <label for="isPaid">{{'isPaid' | translate }}</label>-->
-<!--      </div>-->
-<!--      <button (click)="searchPaperDetail(key.value)" type="submit" class="btn btn-primary"> Search</button>-->
+        <input placeholder="Contact Person" formControlName="contact_person">
+
+
+
+        <select class="form-control" formControlName="division" id="divisionS">
+          <option *ngFor="let value of divisionDropdownValues"
+                  [value]="value">
+            {{value}}
+          </option>
+        </select>
+
+        <select class="form-control" formControlName="institute" id="instituteS">
+          <option *ngFor="let value of instituteDropDownValues"
+                  [value]="value">
+            {{value}}
+          </option>
+        </select>
+
+<!--      <mat-checkbox class="form-control" formControlName="paid">Check me for paid</mat-checkbox>-->
+<!--      <mat-checkbox class="form-control" formControlName="withPartner">Check me for partner</mat-checkbox>-->
+
+        <select class="form-control" formControlName="type">
+          <option *ngFor="let value of typeDropDownValues"
+                  [value]="value">
+            {{value}}
+          </option>
+        </select>
+
     </form>
   </div>
 </div>
 
-
+<br>
+<br>
+<br>
+-------------------------------------------------------------------------------------------------------------------------
 <div class="container mt-1 mb-3" id="mainContainer">
   <div class="row">
     <div *ngFor="let paper of papers" class="col-md-4">
@@ -95,26 +114,29 @@ Search detail
               <h6 class="mb-0">{{paper?.type}}</h6> <span>{{paper?.contact_person}}</span>
             </div>
           </div>
-          <div class="badge" *ngIf="paper?.paid; else elseBlock">{{'Paid' | translate }}</div>
-          <ng-template  #elseBlock> <div class="badge"> {{'NotPaid' | translate }} </div> </ng-template>
+<!--          <div class="badge" *ngIf="paper?.paid; else elseBlock">{{'Paid' | translate }}</div>-->
+<!--          <ng-template  #elseBlock> <div class="badge"> {{'NotPaid' | translate }} </div> </ng-template>-->
+
+            <div *ngIf="paper?.paid;"><i class='glyphicon glyphicon-eur'></i> </div>
+
         </div>
         <div class="mt-1">
           <h3 class="heading">{{paper?.title}}</h3>
         </div>
         <div class="card card-body">
         <div class="mt-1">
-          <h5 class="heading">Institute: {{paper?.institute}}</h5>
-        </div>
-
-        <div class="mt-1">
-          <h5 class="heading">Division: {{paper?.division}}</h5>
+          <h5 class="heading">{{'Institute' | translate }}: {{paper?.institute}}</h5>
         </div>
         <div class="mt-1">
-          <h5 class="heading">Start date: {{paper?.startDate | date:'MM/dd/yyyy'}}</h5>
+          <h5 class="heading">{{'Division' | translate }}: {{paper?.division}}</h5>
+        </div>
+        <div class="mt-1">
+          <h5 class="heading">{{'startDate' | translate }}: {{paper?.startDate | date:'MM/dd/yyyy'}}</h5>
         </div>
         <div class="float-right btn-group btn-group-sm">
           <a  (click)="onOpenModal('view', paper)" class="btn btn-primary tooltips" data-placement="top" data-original-title="View"><i class="fa fa-info"></i> </a>
 
+          <a *ngIf="isSameUser('florian')" (click)="writeTest()" class="btn btn-primary tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-pencil"></i> </a>
           <a *ngIf="!isLoggedIn()" (click)="editPaper(paper)" class="btn btn-primary tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-pencil"></i> </a>
           <a *ngIf="!isLoggedIn()" (click)="onOpenModal('delete', paper)" class="btn btn-secondary tooltips" data-placement="top" data-original-title="Delete"><i class="fa fa-times"></i></a>
         </div>
@@ -127,20 +149,20 @@ Search detail
   <form [formGroup]="addForm" (ngSubmit)="onNewPaper()">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="addPaperModalLabel">{{'AddTitle' | translate }}</h5>
+<!--        <div class="modal-header">-->
+<!--          <h5 class="modal-title" id="addPaperModalLabel">{{'AddTitle' | translate }}</h5>-->
+<!--        </div>-->
+        <div class="modal-body">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
-        </div>
-        <div class="modal-body">
           <!--        Form is a JSON File -->
           <div class="form-group">
             <label for="title">{{'PaperTitle' | translate }}</label>
             <!-- ngModul for the name is needed that the ts File Functions can access the value-->
             <input type="text" formControlName="title" name="title" class="form-control" id="title" placeholder="{{'PaperTitle' | translate }}" required>
           </div>
-          <label for="Description">{{'PaperDescription' | translate }}</label>
+          <label id="description" for="Description">{{'PaperDescription' | translate }}</label>
           <editor  apiKey="jylqczf5m0u5lbxesf4zlzu5c3oaolfispstuwyj0838ejoe" formControlName="description"
                    [init]="{
              height: 300,
@@ -157,6 +179,13 @@ Search detail
           <div class="form-group">
             <label for="contact_person">{{'ContactPerson' | translate }}</label>
             <input type="text" formControlName="contact_person" name="contact_person" class="form-control" id="contact_person" placeholder="{{'ContactPerson' | translate }}" required>
+
+            <label for="contactMail">{{'contactMail' | translate }}</label>
+            <input type="email" formControlName="contactMail" name="contactMail" class="form-control" id="contactMail" placeholder="{{'contactMail' | translate }}" >
+
+            <label for="contactInfo">{{'contactInfo' | translate }}</label>
+            <input type="text" formControlName="contactInfo" name="contactInfo" class="form-control" id="contactInfo" placeholder="{{'contactInfo' | translate }}" >
+
           </div>
           <div class="form-group">
             <label for="division">{{'Division' | translate }}</label>
@@ -190,21 +219,40 @@ Search detail
             <input type="checkbox" formControlName="paid" id="isPaid" name="isPaid">
             <label for="isPaid">{{'isPaid' | translate }}</label>
           </div>
+
+          <div class="form-group">
+            <label for="paymentType">{{'paymentType' | translate }}</label>
+            <select class="form-control" formControlName="paymentType" id="paymentType">
+              <option *ngFor="let value of paymentDropDownValues"
+                      [value]="value">
+                {{value}}
+              </option>
+            </select>
+          </div>
+
+          <label for="paymentAmount">{{'paymentAmount' | translate }}</label>
+          <input type="number" formControlName="paymentAmount" name="paymentAmount" class="form-control" id="paymentAmount" placeholder="{{'paymentAmount' | translate }}" >
+
           <div>
             <input formControlName="withPartner" type="checkbox" id="withPartner" name="withPartner" >
             <label for="withPartner">{{'withPartner' | translate }}</label>
           </div>
+
           <div>
             <label for="startDate">{{'startDate' | translate }} </label>
-            <input formControlName="startDate" type="date" id="startDate" name="startDate" >
+            <input formControlName="startDate" type="date" id="startDate" name="startDate" value="{{getDate() | date:'MM/dd/yyyy'}}">
+
+            <input formControlName="aviableNow" type="checkbox" id="aviableNow" name="aviableNow" >
+            <label for="withPartner">{{'aviableNow' | translate }}</label>
+
           </div>
           <div>
             <label for="endDate">{{'endDate' | translate }} </label>
-            <input formControlName="startDate" type="date" id="endDate" name="startDate" >
+            <input formControlName="startDate" type="date" id="endDate" name="endDate" >
           </div>
           <div class="modal-footer">
             <button type="button" id="close-add-paper-form" class="btn btn-secondary" data-dismiss="modal">{{'Close' | translate }}</button>
-            <!--            This means a invalid form cant be submitted because the button is diabled-->
+            <!--            This means a invalid form cant be submitted because the button is disabled-->
             <button [disabled]="addForm.invalid" type="submit" class="btn btn-primary">{{'Save' | translate }}</button>
           </div>
         </div>
@@ -218,13 +266,13 @@ Search detail
   <form [formGroup]="editForm">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="updatePaperModalLabel">{{'ChangeDate' | translate }} <!--formControlName="title"--> </h5>
+<!--        <div class="modal-header">-->
+<!--          <h5 class="modal-title" id="updatePaperModalLabel">{{'ChangeDate' | translate }} &lt;!&ndash;formControlName="title"&ndash;&gt; </h5>-->
+<!--        </div>-->
+        <div class="modal-body">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
-        </div>
-        <div class="modal-body">
           <div class="form-group">
             <label for="title">{{'PaperTitle' | translate }}</label>
             <input type="text" formControlName="title" name="title" class="form-control" id="titleEdit" aria-describedby="emailHelp" placeholder="{{'PaperTitle' | translate }}">
@@ -249,6 +297,12 @@ Search detail
           <div class="form-group">
             <label for="contact_person">{{'ContactPerson' | translate }}</label>
             <input type="text" formControlName="contact_person" name="contact_person" class="form-control" id="contact_personEdited" placeholder="{{'ContactPerson' | translate }}">
+
+            <label for="contactMail">{{'contactMail' | translate }}</label>
+            <input type="email" formControlName="contactMail" name="contactMail" class="form-control" id="contactMailEdited" placeholder="{{'contactMail' | translate }}" >
+
+            <label for="contactInfo">{{'contactInfo' | translate }}</label>
+            <input type="text" formControlName="contactInfo" name="contactInfo" class="form-control" id="contactInfoedited" placeholder="{{'contactInfo' | translate }}" >
           </div>
           <div class="form-group">
             <label for="division">{{'Division' | translate }}</label>
@@ -278,9 +332,23 @@ Search detail
             </select>
           </div>
           <div>
-            <input formControlName="paid" type="checkbox" id="isPaidEdited" name="paid">
-            <label for="paid">{{'paid' | translate }}</label>
+            <input formControlName="paid" type="checkbox"  id="paidEdited" name="paid">
+            <label  for="paid">{{'paid' | translate }}</label>
           </div>
+
+          <div class="form-group">
+            <label for="paymentType">{{'paymentType' | translate }}</label>
+            <select class="form-control" formControlName="paymentType" id="paymentTypeEdited">
+              <option *ngFor="let value of paymentDropDownValues"
+                      [value]="value">
+                {{value}}
+              </option>
+            </select>
+          </div>
+
+          <label for="paymentAmount">{{'paymentAmount' | translate }}</label>
+          <input type="number" formControlName="paymentAmount" name="paymentAmount" class="form-control" id="paymentAmountEdited" placeholder="{{'paymentAmount' | translate }}">
+
           <div>
             <input formControlName="withPartner" type="checkbox" id="withPartnerEdited" name="withPartner">
             <label for="withPartner">{{'withPartner' | translate }}</label>
@@ -309,12 +377,15 @@ Search detail
 <div class="modal" id="deletePaperModal" tabindex="-1" aria-labelledby="deletePaperModal" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="deleteModalLabel">{{'DeleteData' | translate }}</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
+<!--      <div class="modal-header">-->
+<!--        <h5 class="modal-title" id="deleteModalLabel">{{'DeleteData' | translate }}</h5>-->
+<!--        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
+<!--      </div>-->
       <div class="modal-body">
-        <p> {{delPaper?.title}} {{'DeleteCheck' | translate }}?</p>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <p>  {{'DeleteCheck' | translate }} <b>{{delPaper?.title}}</b> {{'DeleteCheck2' | translate }}?</p>
       </div>
       <div class="modal-footer">
         <button type="button" data-dismiss="modal" class="btn btn-secondary">{{'Close' | translate }}</button>
@@ -328,11 +399,16 @@ Search detail
 <div class="modal" id="viewPaperModal" tabindex="-1" aria-labelledby="viewPaperModal" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="viewModalLabel">{{'ViewData' | translate }}</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
+<!--      <div class="modal-header">-->
+<!--        <h5 class="modal-title" id="viewModalLabel">{{'ViewData' | translate }}</h5>-->
+<!--        <button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
+<!--          <span aria-hidden="true">&times;</span>-->
+<!--        </button>-->
+<!--      </div>-->
       <div class="modal-body">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
         <p> <b> {{'PaperTitle' | translate }}: </b> {{curPaper?.title}}</p>
         <div>
           <p> <b> {{'PaperDescription' | translate }}: </b> </p>
@@ -340,22 +416,25 @@ Search detail
         </div>
         ------------------------------------------------------------------------
         <div class="mt-5">
-          <h5 class="heading"> <b>Division: </b> {{curPaper?.division}}</h5>
+          <h5 class="heading"> <b>{{'Division' | translate }}: </b> {{curPaper?.division}}</h5>
         </div>
         <div class="mt-5">
-          <h5 class="heading"> <b>Institute: </b> {{curPaper?.institute}}</h5>
+          <h5 class="heading"> <b>{{'Institute' | translate }}: </b> {{curPaper?.institute}}</h5>
         </div>
         <div class="mt-5">
           <h5 class="heading">{{'startDate' | translate }}: {{curPaper?.startDate | date:'MM/dd/yyyy'}}</h5>
         </div>
+        <div class="mt-5">
+          <h5 class="heading">Mail: <a href="mailtO:{{curPaper?.contactMail}}">{{curPaper?.contactMail}}</a> </h5>
+        </div>
           ------------------------------------------------------------------------
+        <div class="mt-3">
+          <div *ngIf="curPaper?.withPartner; else elseBlock">{{'withPartner' | translate }}</div>
+          <ng-template #elseBlock>{{'withoutPartner2' | translate }}</ng-template>
+        </div>
         <div class="mt-3">
           <div *ngIf="curPaper?.paid; else elseBlock">{{'Paid' | translate }}</div>
           <ng-template #elseBlock>{{'NotPaid' | translate }}</ng-template>
-        </div>
-        <div class="mt-3">
-          <div *ngIf="curPaper?.withPartner; else elseBlock">{{'withPartner' | translate }}</div>
-          <ng-template #elseBlock>{{'withoutPartner' | translate }}</ng-template>
         </div>
       </div>
       <div class="modal-footer">
@@ -365,3 +444,5 @@ Search detail
   </div>
 </div>
 
+  </div>
+</div>

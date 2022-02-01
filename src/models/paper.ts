@@ -13,8 +13,11 @@ export interface  Paper {
   startDate: Date;
   endDate: Date;
   type: string;
-
-
+  subbmitedBy: string;
+  contactMail: string;
+  contactInfo: string;
+  paymentType: string;
+  paymentAmount: string;
 
   //test for internalizer
   production: boolean;
