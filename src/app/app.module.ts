@@ -14,6 +14,8 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatSelectModule} from "@angular/material/select";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {MatInputModule} from "@angular/material/input";
+import {RouterModule} from "@angular/router";
+
 
 
 // AOT compilation support
@@ -28,6 +30,9 @@ export function httpTranslateLoader(http: HttpClient) {
   imports: [
     BrowserModule,
     HttpClientModule,
+    RouterModule.forRoot([
+      {path:'', component: AppComponent},
+    ]),
     FormsModule,
     EditorModule,
     ReactiveFormsModule,

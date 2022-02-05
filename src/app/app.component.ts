@@ -41,7 +41,7 @@ export class AppComponent implements  OnInit{
     startDate: new FormControl(),
     endDate: new FormControl(),
     type: new FormControl(),
-    subbmitedBy: new FormControl(),
+    // subbmitedBy: new FormControl(),
     contactMail: new FormControl(),
     contactInfo: new FormControl(),
     paymentType: new FormControl(),
@@ -65,7 +65,8 @@ export class AppComponent implements  OnInit{
     contactMail: new FormControl(),
     contactInfo: new FormControl(),
     paymentType: new FormControl(),
-    paymentAmount: new FormControl()
+    paymentAmount: new FormControl(),
+    subbmitedBy: new FormControl()
   });
 
   searchForm: FormGroup;
@@ -201,7 +202,7 @@ export class AppComponent implements  OnInit{
         || paper_i.contact_person.toLocaleLowerCase().indexOf(key.toLocaleLowerCase()) !== -1
         || paper_i.description.toLocaleLowerCase().indexOf(key.toLocaleLowerCase()) !== -1
         || paper_i.division.toLocaleLowerCase().indexOf(key.toLocaleLowerCase()) !== -1
-        || paper_i.institute.toLocaleLowerCase().indexOf(key.toLocaleLowerCase()) !== -1
+        // || paper_i.institute.toLocaleLowerCase().indexOf(key.toLocaleLowerCase()) !== -1
       )  {
         findings.push(paper_i);
       }
@@ -215,29 +216,29 @@ export class AppComponent implements  OnInit{
     }
   }
 
-  public searchPaperDetail(key: string): void{
-    //container to store all Matches
-    const findings: Paper [] = [];
-
-    //loop over all papers an check if. -1 no match found in the indexOf function.
-    for (const paper_i of this.papers) {
-      if (paper_i.title.toLocaleLowerCase().indexOf(key.toLocaleLowerCase()) !== -1
-        || paper_i.contact_person.toLocaleLowerCase().indexOf(key.toLocaleLowerCase()) !== -1
-        || paper_i.description.toLocaleLowerCase().indexOf(key.toLocaleLowerCase()) !== -1
-        || paper_i.division.toLocaleLowerCase().indexOf(key.toLocaleLowerCase()) !== -1
-        || paper_i.institute.toLocaleLowerCase().indexOf(key.toLocaleLowerCase()) !== -1
-      )  {
-        findings.push(paper_i);
-      }
-    }
-    //only show the results
-    this.papers = findings;
-
-    //case nothing was found or the field is empty --> reset to show all Papers
-    if (findings.length === 0 || !key) {
-      this.getPapers();
-    }
-  }
+  // public searchPaperDetail(key: string): void{
+  //   //container to store all Matches
+  //   const findings: Paper [] = [];
+  //
+  //   //loop over all papers an check if. -1 no match found in the indexOf function.
+  //   for (const paper_i of this.papers) {
+  //     if (paper_i.title.toLocaleLowerCase().indexOf(key.toLocaleLowerCase()) !== -1
+  //       || paper_i.contact_person.toLocaleLowerCase().indexOf(key.toLocaleLowerCase()) !== -1
+  //       || paper_i.description.toLocaleLowerCase().indexOf(key.toLocaleLowerCase()) !== -1
+  //       || paper_i.division.toLocaleLowerCase().indexOf(key.toLocaleLowerCase()) !== -1
+  //       || paper_i.institute.toLocaleLowerCase().indexOf(key.toLocaleLowerCase()) !== -1
+  //     )  {
+  //       findings.push(paper_i);
+  //     }
+  //   }
+  //   //only show the results
+  //   this.papers = findings;
+  //
+  //   //case nothing was found or the field is empty --> reset to show all Papers
+  //   if (findings.length === 0 || !key) {
+  //     this.getPapers();
+  //   }
+  // }
 
   public editPaper(paper: Paper) {
     this.editForm.setValue(paper);
@@ -393,6 +394,8 @@ export class AppComponent implements  OnInit{
 //     console.log(this.curPaper.startDate.getDate().toString());
 //     return this.curPaper.startDate.getDate().toString();
 //   }
+
+
 
 
 }

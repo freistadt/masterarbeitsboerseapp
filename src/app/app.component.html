@@ -31,7 +31,11 @@
   </div>
 </nav>
 
-<!--User data needed atm but might be able to change later -->
+<!--TODO new side with detail search-->
+<!--<router-outlet></router-outlet>-->
+
+
+<!--&lt;!&ndash;User data needed atm but might be able to change later &ndash;&gt;-->
 <form [formGroup]="authForm" (ngSubmit)="auth()" class="form-inline">
 
   <div class="form-group w-25" mb-2>
@@ -43,65 +47,65 @@
   <button (click)="dummyLogIn()" authForm.invalid type="submit" class="btn btn-primary ">Log in</button>
 </form>
 
-<button (click)="getDate()" authForm.invalid type="submit" class="btn btn-primary ">TEST DATE in</button>
--------------------------------------------------------------------------------------------------------------------------
-
-<a href="mailto:chriscoyier@gmail.com">chriscoyier@gmail.com</a>
-Search detail
-<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseSearch" aria-expanded="false" aria-controls="collapseExample">
-  {{'detailSearch' | translate }}
-</button>
-<div class="collapse" id="collapseSearch">
-  <div>
-    <form [formGroup]="searchForm">
-
-      <div>
-      Value: {{searchForm.value | json}}
-      </div>
-      <div>
-        <input matInput placeholder="title" formControlName="title">
-      </div>
-
-        <input placeholder="your description" formControlName="description">
+<!--<button (click)="getDate()" authForm.invalid type="submit" class="btn btn-primary ">TEST DATE in</button>-->
+<!-- -&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
 
 
+<!--Search detail-->
+<!--<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseSearch" aria-expanded="false" aria-controls="collapseExample">-->
+<!--  {{'detailSearch' | translate }}-->
+<!--</button>-->
+<!--<div class="collapse" id="collapseSearch">-->
+<!--  <div>-->
+<!--    <form [formGroup]="searchForm">-->
 
-        <input placeholder="Contact Person" formControlName="contact_person">
+<!--      <div>-->
+<!--      Value: {{searchForm.value | json}}-->
+<!--      </div>-->
+<!--      <div>-->
+<!--        <input matInput placeholder="title" formControlName="title">-->
+<!--      </div>-->
+
+<!--        <input placeholder="your description" formControlName="description">-->
 
 
 
-        <select class="form-control" formControlName="division" id="divisionS">
-          <option *ngFor="let value of divisionDropdownValues"
-                  [value]="value">
-            {{value}}
-          </option>
-        </select>
+<!--        <input placeholder="Contact Person" formControlName="contact_person">-->
 
-        <select class="form-control" formControlName="institute" id="instituteS">
-          <option *ngFor="let value of instituteDropDownValues"
-                  [value]="value">
-            {{value}}
-          </option>
-        </select>
 
-<!--      <mat-checkbox class="form-control" formControlName="paid">Check me for paid</mat-checkbox>-->
-<!--      <mat-checkbox class="form-control" formControlName="withPartner">Check me for partner</mat-checkbox>-->
 
-        <select class="form-control" formControlName="type">
-          <option *ngFor="let value of typeDropDownValues"
-                  [value]="value">
-            {{value}}
-          </option>
-        </select>
+<!--        <select class="form-control" formControlName="division" id="divisionS">-->
+<!--          <option *ngFor="let value of divisionDropdownValues"-->
+<!--                  [value]="value">-->
+<!--            {{value}}-->
+<!--          </option>-->
+<!--        </select>-->
 
-    </form>
-  </div>
-</div>
+<!--        <select class="form-control" formControlName="institute" id="instituteS">-->
+<!--          <option *ngFor="let value of instituteDropDownValues"-->
+<!--                  [value]="value">-->
+<!--            {{value}}-->
+<!--          </option>-->
+<!--        </select>-->
 
-<br>
-<br>
-<br>
--------------------------------------------------------------------------------------------------------------------------
+<!--&lt;!&ndash;      <mat-checkbox class="form-control" formControlName="paid">Check me for paid</mat-checkbox>&ndash;&gt;-->
+<!--&lt;!&ndash;      <mat-checkbox class="form-control" formControlName="withPartner">Check me for partner</mat-checkbox>&ndash;&gt;-->
+
+<!--        <select class="form-control" formControlName="type">-->
+<!--          <option *ngFor="let value of typeDropDownValues"-->
+<!--                  [value]="value">-->
+<!--            {{value}}-->
+<!--          </option>-->
+<!--        </select>-->
+
+<!--    </form>-->
+<!--  </div>-->
+<!--</div>-->
+
+<!--<br>-->
+<!--<br>-->
+<!--<br>-->
+<!-- -&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
 <div class="container mt-1 mb-3" id="mainContainer">
   <div class="row">
     <div *ngFor="let paper of papers" class="col-md-4">
@@ -109,7 +113,7 @@ Search detail
         <div class="d-flex justify-content-between">
           <div class="d-flex flex-row align-items-center">
             <!--            icon dokumentation: https://www.w3schools.com/css/css_icons.asp-->
-            <div class="icon"> <i class="glyphicon glyphicon-envelope"></i> </div>
+            <div class="icon"> <a id="notblue" href="mailtO:{{curPaper?.contactMail}}"><i class="glyphicon glyphicon-envelope mt-3"></i> </a> </div>
             <div class="ms-2 c-details">
               <h6 class="mb-0">{{paper?.type}}</h6> <span>{{paper?.contact_person}}</span>
             </div>
@@ -278,7 +282,6 @@ Search detail
             <input type="text" formControlName="title" name="title" class="form-control" id="titleEdit" aria-describedby="emailHelp" placeholder="{{'PaperTitle' | translate }}">
           </div>
           <!--          hidden because id should not be updatet but id is needed for Hibernate to not create anew Paper-->
-          <!--           tODO add PaperCode if neccessary-->
           <input type="hidden" formControlName="id" name="id" class="form-control" id="id" placeholder="ID">
           <label for="Description">{{'PaperDescription' | translate }}</label>
           <editor  apiKey="jylqczf5m0u5lbxesf4zlzu5c3oaolfispstuwyj0838ejoe" formControlName="description"
@@ -433,9 +436,14 @@ Search detail
           <ng-template #elseBlock>{{'withoutPartner2' | translate }}</ng-template>
         </div>
         <div class="mt-3">
-          <div *ngIf="curPaper?.paid; else elseBlock">{{'Paid' | translate }}</div>
+          <div *ngIf="curPaper?.paid; else elseBlock">
+            {{'Paid' | translate }} {{curPaper?.paymentType}} {{curPaper?.paymentType}}
+          </div>
           <ng-template #elseBlock>{{'NotPaid' | translate }}</ng-template>
         </div>
+
+
+
       </div>
       <div class="modal-footer">
         <button type="button" data-dismiss="modal" class="btn btn-secondary">{{'Close' | translate }}</button>
